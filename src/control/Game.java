@@ -9,7 +9,7 @@ import model.Computerplayer;
 import model.Field;
 import model.Humanplayer;
 import model.Player;
-//comment
+
 public class Game {
 	private Board board;
 	public Player one;
