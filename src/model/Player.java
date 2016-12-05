@@ -10,6 +10,7 @@ public abstract class Player {
 	public List<Tile> pHand;
 	public Integer color;
 	protected Game game;
+	private Field lastMove;
 	
 	public Player(String name, Game game) {
 		this.name = name;
@@ -56,11 +57,7 @@ public abstract class Player {
 			pHand.add(e);
 		}	
 		}
-	public void RemoveFromHand(Tile choice){
-		if(choice.getColor().equals(color) && this.showHand() != 0){
-			pHand.remove(choice);
-		}
-	}
+
 		
 	public abstract void determineMove(Board board);
 	
@@ -70,21 +67,18 @@ public abstract class Player {
 
 	}
 	public void makeMove(Board board, Field move) {
-		boolean valid = true;
 		Board bcopy = board.Deepcopy();
 		if (move != null) {
-				if (game.validMove(move, bcopy)){
-					bcopy.setField(move);
-				} else {
-					System.out.print(
-							"Choice is not valid, try again to place a tile or swap/pass." + System.lineSeparator());
-					valid = false;
-				}
-
-		} else {
-			return;
-
+			lastMove = move;
+			bcopy.setField(move);
+		} 
+		else {
+			System.out.print("Move is empty, try again." + System.lineSeparator());
 		}
 	}
 	
+	public Field lastTile(){
+		return lastMove;
+	}
+
 }

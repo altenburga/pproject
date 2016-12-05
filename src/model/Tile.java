@@ -18,27 +18,5 @@ public class Tile {
 	public Integer getColor() {
 		return color;
 	}
-	/**
-	 * gives a Tile in String form
-	 * 
-	 * @return String representation of the Tile
-	 */
-	public String toString() {
-		String a = new String();
-		if( this.color == 1){
-			a = "White";
-					
-		}
-		if(this.color == 0){
-			a = "No tile";
-		}
-		else {
-			a = "Black";
-		}
-		return a;
-	}
-	public void setTile(Integer color){
-		Integer tileColor = this.getColor();
-		tileColor = color;
-	}
+
 }

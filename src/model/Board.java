@@ -8,6 +8,7 @@ import java.util.List;
 public class Board {
 	private static final int DIM = 4;
 	public Field[][][] place = new Field[DIM][DIM][DIM];
+	public final static Tile emptyTile = new Tile(0);
 	// * private int MinX = 1;
 	// * private int MaxX = 4;
 	// * private int MinY = 1;
@@ -21,9 +22,9 @@ public class Board {
 
 	public Board Deepcopy() {
 		Board newBoard = new Board();
-		for (int i = 0; i < DIM; i++) {
-			for (int j = 0; j < DIM; j++) {
-				for (int z = 0; z < DIM; z++) {
+		for (int i = 1; i < 5; i++) {
+			for (int j = 1; j < 5; j++) {
+				for (int z = 1; z < 5; z++) {
 					newBoard.place[i][j][z] = this.place[i][j][z];
 				}
 			}
@@ -61,11 +62,10 @@ public class Board {
 
 	public void reset() {
 		Tile choice = new Tile(0);
-		for (int i = 0; i < DIM; i++) {
-			for (int j = 0; j < DIM; j++) {
-				for (int z = 0; z < DIM; z++) {
-					choice = place[i][j][z].getTile();
-					choice.setTile(0);
+		for (int i = 1; i <= DIM; i++) {
+			for (int j = 1; j <= DIM; j++) {
+				for (int z = 1; z <= DIM; z++) {
+					place[i][j][z].setTile(emptyTile);
 				}
 
 			}
@@ -76,9 +76,9 @@ public class Board {
 	public boolean isEmpty() {
 		Tile choice = new Tile(1);
 		boolean result = true;
-		for (int x = 0; x < (DIM); x++) {
-			for (int y = 0; y < (DIM); y++) {
-				for (int z = 0; z < DIM; z++) {
+		for (int x = 1; x <= (DIM); x++) {
+			for (int y = 1; y <= (DIM); y++) {
+				for (int z = 1; z <= DIM; z++) {
 					choice = place[x][y][z].getTile();
 					if (choice.getColor() != 0) {
 						result = false;
@@ -91,9 +91,9 @@ public class Board {
 
 	public boolean boardEmpty() {
 		boolean empty = true;
-		for (int x = 0; x < (DIM); x++) {
-			for (int y = 0; y < (DIM); y++) {
-				for (int z = 0; z < DIM; z++) {
+		for (int x = 1; x <= (DIM); x++) {
+			for (int y = 1; y <= (DIM); y++) {
+				for (int z = 1; z <= DIM; z++) {
 					Tile t = place[x][y][z].getTile();
 					if (t.getColor() != 0) {
 						empty = false;
@@ -219,4 +219,22 @@ public class Board {
 		}
 		return row;
 	}
+	public void showBoard(){
+	    System.out.println(" 1 2 3");
+	    System.out.println("A" + place[1][1][1].getTile() + "|" + place[2][1][1].getTile() + "|" + place[3][1][1].getTile());  
+	    System.out.println("-----");
+	    System.out.println("B" + place[1][2][1].getTile() + "|" + place[2][2][1].getTile() + "|" + place[3][2][1].getTile());  
+	    System.out.println("-----");
+	    System.out.println("C" + place[1][3][1].getTile() + "|" + place[2][3][1].getTile() + "|" + place[3][3][1].getTile());                        
+	    }
+
+
+
+	 public static void main(String[] args){
+		 Board one = new Board();
+		 one.reset();
+		one.showBoard();
+		
+	}
 }
+

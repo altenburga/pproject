@@ -19,11 +19,6 @@ public class Field {
 	}
 	public void setTile(Tile choice){
 		tile = choice;
-		
-	}
-	public Tile getTile(int x, int y, int z){
-		return tile;
-		
 	}
 	/**
 	 * gives the y coordinate where the player wants to place his tile during
@@ -54,11 +49,6 @@ public class Field {
 	 */
 	public int getZ() {
 		return z;
-	}
-	
-	public void PlaceTile(int x, int y, int z){
-		
-		
 	}
 
 
