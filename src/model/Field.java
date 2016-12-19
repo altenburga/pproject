@@ -14,11 +14,17 @@ public class Field {
 	}
 	
 	public Color getColor(){
+		System.out.print(color);
 		return color;
 		
 	}
 	public void setColor(Color choice){
-		color = choice;
+		if(color == Color.EMPTY){
+			color = choice;
+		}
+		else{
+			System.out.println("Dat vakje is al vol");
+		}
 	}
 	
 	/**
