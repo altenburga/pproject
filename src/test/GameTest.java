@@ -10,7 +10,7 @@ import model.Board;
 import model.Color;
 import model.Field;
 import model.Player;
-
+//hoi
 public class GameTest {
 	public Player s0;
 	public Player s1;

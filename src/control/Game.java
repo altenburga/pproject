@@ -7,6 +7,7 @@ import java.util.Scanner;
 import model.*;
 import view.*;
 
+//hoi
 
 public class Game {
 	private Board board;
