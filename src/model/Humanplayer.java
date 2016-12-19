@@ -16,7 +16,7 @@ public class Humanplayer extends Player {
 		int col = askColumn();
 		int row = askRow();
 		int height = askHeight();
-		Tile tile = new Tile(this.getColor());
+		Color tile = this.getColor();
 		Field place = new Field(col, height, row, tile);
 		if (game.validMove(place, board)) {
 			makeMove(board, place);

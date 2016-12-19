@@ -7,24 +7,24 @@ import control.Game;
 
 public abstract class Player {
 	private String name;
-	public List<Tile> pHand;
-	public Integer color;
+	public List<Color> pHand;
+	public Color color;
 	protected Game game;
 	private Field lastMove;
 	
 	public Player(String name, Game game) {
 		this.name = name;
 		this.game = game;
-		pHand = new ArrayList<Tile>();
+		pHand = new ArrayList<Color>();
 	}
 	public String getName() {
 		return name;
 	}
-	public int getColor(){
+	public Color getColor(){
 		return color;
 	}
 	
-	public void setColor(int col){
+	public void setColor(Color col){
 		color = col;
 	
 	}
@@ -33,14 +33,14 @@ public abstract class Player {
 	}
 	public Integer showHand() {
 		Integer result = 0;
-		for (Tile tile : pHand) {
+		for (Color color : pHand) {
 			result = result + 1 ;
 		}
 		return result;
 	}
-	public boolean CheckTile(Tile choice){
+	public boolean CheckTile(Color choice){
 		boolean available = true;
-		if( choice.getColor().equals(color) && this.showHand() != 0){
+		if( choice == color && this.showHand() != 0){
 			available = true;
 		}
 		else {
@@ -52,7 +52,7 @@ public abstract class Player {
 		initHand();
 	}
 	public void initHand() {
-		Tile e = new Tile(color);
+		Color e = color;
 		for (int i = 0; i < 32; i++) {
 			pHand.add(e);
 		}	
@@ -63,14 +63,18 @@ public abstract class Player {
 	
 	
 	public void clearHand() {
-		pHand = new ArrayList<Tile>();
+		pHand = new ArrayList<Color>();
 
 	}
 	public void makeMove(Board board, Field move) {
 		Board bcopy = board.Deepcopy();
 		if (move != null) {
 			lastMove = move;
-			bcopy.setField(move);
+			int x = move.getX();
+			int y = move.getY();
+			int z = move.getZ();
+			Color one = move.getColor();
+			bcopy.setField(x,y,z,one);
 		} 
 		else {
 			System.out.print("Move is empty, try again." + System.lineSeparator());
