@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// !!! In de for loops 0 vervangen door 1 en < DIM door <= DIM !!!
 
 public class Board {
 	private static final int DIM = 4;
