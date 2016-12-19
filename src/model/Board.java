@@ -99,8 +99,8 @@ public class Board {
 		int z = choice.getZ();
 		if (choice.getColor() != Color.EMPTY) {
 			Color color = choice.getColor();
-			if (fields[x][1][z] == color && fields[x][2][z] == color && fields[x][3][z] == color
-					&& fields[x][4][z] == color) {
+			if (fields[x][0][z] == color && fields[x][1][z] == color && fields[x][2][z] == color
+					&& fields[x][3][z] == color) {
 				column = true;
 			}
 		}
@@ -121,12 +121,6 @@ public class Board {
 			if (fields[x][y][0] == col && fields[x][y][1] == col && fields[x][y][2] == col && fields[x][y][3] == col) {
 				row = true;
 			}
-			if (fields[0][0][0] == col && fields[1][1][1] == col && fields[2][2][2] == col && fields[3][3][3] == col) {
-				row = true;
-			}
-			if (fields[3][0][0] == col && fields[2][1][1] == col && fields[1][1][2] == col && fields[0][3][3] == col) {
-				row = true;
-			}
 		}
 		return row;
 
@@ -134,9 +128,9 @@ public class Board {
 
 	public boolean getDiagDiag(Color color) {
 		boolean row = false;
-		if (fields[1][1][1] == color && fields[2][2][2] == color && fields[3][3][3] == color && fields[4][4][4] == color
-				|| fields[1][1][4] == color && fields[2][2][3] == color && fields[3][3][2] == color
-						&& fields[4][4][1] == color) {
+		if (fields[0][0][0] == color && fields[1][1][1] == color && fields[2][2][2] == color && fields[3][3][3] == color
+				|| fields[0][0][3] == color && fields[1][1][2] == color && fields[2][2][1] == color
+						&& fields[3][3][0] == color) {
 			row = true;
 		}
 		return row;
@@ -145,14 +139,14 @@ public class Board {
 
 	public boolean getXdiag(Color color) {
 		boolean row = false;
-		for (int x = 1; x < (DIM); x++) {
-			if (fields[x][1][4] == (color) && fields[x][4][1] == (color)) {
-				if (fields[x][2][3] == (color) && fields[x][3][2] == (color)) {
+		for (int x = 0; x < (DIM); x++) {
+			if (fields[x][0][3] == (color) && fields[x][3][0] == (color)) {
+				if (fields[x][1][2] == (color) && fields[x][2][1] == (color)) {
 					row = true;
 				}
 			}
-			if (fields[x][1][1] == (color) && fields[x][4][4] == (color)) {
-				if (fields[x][3][3] == (color) && fields[x][2][2] == (color)) {
+			if (fields[x][0][0] == (color) && fields[x][3][3] == (color)) {
+				if (fields[x][2][2] == (color) && fields[x][1][1] == (color)) {
 					row = true;
 				}
 
@@ -163,14 +157,14 @@ public class Board {
 
 	public boolean getZdiag(Color color) {
 		boolean row = false;
-		for (int z = 1; z <= (DIM); z++) {
-			if (fields[1][4][z] == (color) && fields[4][1][z] == (color)) {
-				if (fields[2][3][z] == (color) && fields[3][2][z] == (color)) {
+		for (int z = 0; z < (DIM); z++) {
+			if (fields[0][3][z] == (color) && fields[3][0][z] == (color)) {
+				if (fields[1][2][z] == (color) && fields[2][1][z] == (color)) {
 					row = true;
 				}
 			}
-			if (fields[1][1][z] == (color) && fields[4][4][z] == (color)) {
-				if (fields[3][3][z] == (color) && fields[2][2][z] == (color)) {
+			if (fields[0][0][z] == (color) && fields[3][3][z] == (color)) {
+				if (fields[2][2][z] == (color) && fields[1][1][z] == (color)) {
 					row = true;
 				}
 
