@@ -10,24 +10,18 @@ import view.*;
 
 public class Game {
 	private Board board;
-	public Player one;
-	public Player two;
+	 private Player[] players;
 	public Player currentPlayer;
 	boolean finished = false;
+	private boolean finishedturn;
+	private Color winningColor;
+	 public static final int NUMBER_PLAYERS = 2;
 
-	public Game() {
+	public Game(Player s0, Player s1) {
 		board = new Board();
-		if (one.getName().startsWith("C")) {
-			one = new Computerplayer(one.getName(), this);
-		} else {
-			one = new Humanplayer(one.getName(), this);
-		}
-
-		if (two.getName().startsWith("C")) {
-			one = new Computerplayer(two.getName(), this);
-		} else {
-			two = new Humanplayer(two.getName(), this);
-		}
+        players = new Player[NUMBER_PLAYERS];
+        players[0] = s0;
+        players[1] = s1;
 	}
 
 	public void namePlayers() {
@@ -37,11 +31,11 @@ public class Game {
 			System.out.println(
 					"What is the name of player one?(If you want to be a computerPlayer, let your name start with a C.)");
 			String i = in.next();
-			one.setName(i);
+			players[0].setName(i);
 			System.out.println(
 					"What is the name of player one?(If you want to be a computerPlayer, let your name start with a C.)");
 			String o = in.next();
-			two.setName(o);
+			players[1].setName(o);
 			read = true;
 			in.close();
 		}
@@ -53,17 +47,17 @@ public class Game {
 	}
 
 	public boolean turnFinished() {
-		return finished;
+		return finishedturn;
 	}
 
 	public Player firstPlayer() {
-		Player p = one;
+		Player p = players[0];
 		int temp = (Math.random() <= 0.5) ? 1 : 2;
 		if (temp == 1) {
-			p = one;
+			p = players[0];
 		}
 		if (temp == 2) {
-			p = two;
+			p = players[1];
 
 		}
 		return p;
@@ -71,10 +65,10 @@ public class Game {
 
 	public Player newCurrentPlayer() {
 		Player newCurrentPlayer = null;
-		if (one == currentPlayer) {
-			newCurrentPlayer = two;
+		if (players[0] == currentPlayer) {
+			 players[1] = newCurrentPlayer;
 		} else {
-			newCurrentPlayer = one;
+			players[0] = newCurrentPlayer;
 		}
 		return newCurrentPlayer;
 	}
@@ -84,7 +78,7 @@ public class Game {
 		int x = choice.getX();
 		int y = choice.getY();
 		int z = choice.getZ();
-		if (board.isEmpty() && y == 1) {
+		if (board.boardEmpty() && y == 1) {
 			valid = true;
 		}
 		if (board.isEmpty(x, y, z) && y == 1) {
@@ -106,17 +100,25 @@ public class Game {
 	}
 
 	public String isWinner() {
-		return one.getName();
+		String winner = new String();
+		if(players[0].getColor() == winningColor){
+			winner = players[0].getName() + players[0].getColor();
+			
+		}else {
+			winner = players[1].getName() + players[1].getColor();
+			
+		}
+		return winner;
 	}
 
 	public boolean hasWinner() {
 		boolean fourrow = false;
 		Field last = currentPlayer.lastTile();
-		Tile tile = last.getTile();
+		winningColor = last.getColor();
 		if(board.getCol(last) == true || board.getRow(last) == true){
 			fourrow = true;			
 		}
-		if(board.getXdiag(tile) == true || board.getZdiag(tile) || board.getDiagDiag(tile)){
+		if(board.getXdiag(currentPlayer.getColor()) == true || board.getZdiag(currentPlayer.getColor()) || board.getDiagDiag(currentPlayer.getColor())){
 			fourrow = true;
 		}
 		
@@ -125,8 +127,8 @@ public class Game {
 
 	public void reset() {
 		board.reset();
-		one.reset();
-		two.reset();
+		players[0].reset();
+		players[1].reset();
 	}
 
 	public void startGame() {
@@ -154,8 +156,9 @@ public class Game {
 
 	public void play(){
 		finished = false;
-		while (!finished) {
-			if (board.isEmpty()) {
+		finishedturn = false;
+		while (!finished && !finishedturn) {
+			if (board.boardEmpty()) {
 				currentPlayer = firstPlayer();
 				board.showBoard();
 				System.out.println(currentPlayer.getName() + currentPlayer.showHand());
@@ -174,12 +177,14 @@ public class Game {
 						int z = 0;
 						if (!cboard.getField(i, j, z).equals(dboard.getField(i, j, z))) {
 							placed = true;
+							finishedturn = true;
 								}
 
 
 				
 			else {
 				currentPlayer.determineMove(board);
+				finishedturn =true;
 
 			}
 			this.hasWinner();
@@ -198,7 +203,7 @@ public class Game {
 
 	}
 
-	private boolean gameOver() {
+	public boolean gameOver() {
 		boolean finished = false;
 		if(this.hasWinner() == true){
 			finished = true;
