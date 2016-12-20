@@ -38,16 +38,7 @@ public abstract class Player {
 		}
 		return result;
 	}
-	public boolean CheckTile(Color choice){
-		boolean available = true;
-		if( choice == color && this.showHand() != 0){
-			available = true;
-		}
-		else {
-			available = false;
-		}
-		return available; 
-	}
+	
 	public void reset() {
 		initHand();
 	}
@@ -75,6 +66,7 @@ public abstract class Player {
 			int z = move.getZ();
 			Color one = move.getColor();
 			bcopy.setField(x,y,z,one);
+			board.setField(x, y, z, one);
 		} 
 		else {
 			System.out.print("Move is empty, try again." + System.lineSeparator());
