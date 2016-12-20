@@ -7,11 +7,11 @@ import java.util.Scanner;
 import model.*;
 import view.*;
 
-//hoi
 
 public class Game {
 	private Board board;
-	 private Player[] players;
+	
+	private Player[] players;
 	public Player currentPlayer;
 	boolean finished = false;
 	private boolean finishedturn;
@@ -64,14 +64,14 @@ public class Game {
 		return p;
 	}
 
-	public Player newCurrentPlayer() {
-		Player newCurrentPlayer = null;
+	public void newCurrentPlayer() {
+		Player newCurrentPlayer = players[0];
 		if (players[0] == currentPlayer) {
-			 players[1] = newCurrentPlayer;
+			 newCurrentPlayer = players[1];
 		} else {
-			players[0] = newCurrentPlayer;
+			newCurrentPlayer = players[0];
 		}
-		return newCurrentPlayer;
+		currentPlayer = newCurrentPlayer;
 	}
 
 	public boolean validMove(Field choice, Board board) {
@@ -195,7 +195,7 @@ public class Game {
 				}
 			}
 			if (!gameOver()) {
-				currentPlayer = newCurrentPlayer();
+				this.newCurrentPlayer();
 				update();
 			}
 		}
