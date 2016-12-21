@@ -44,7 +44,7 @@ public class Game {
 
 	public void newCurrentPlayer() {
 	}
-	public boolean validMove(Field choice, Board board) {
+/*	public boolean validMove(Field choice, Board board) {
 		boolean valid = false;
 		int x = choice.getX();
 		int y = choice.getY();
@@ -69,7 +69,7 @@ public class Game {
 		return valid;
 
 	}
-
+*/
 	public Boolean isWinner(Board bor, Color c) {
 		return bor.getXdiag(c) || bor.getDiagDiag(c) || bor.getZdiag(c) || bor.getCol(c) || bor.getZRow(c) || bor.getXRow(c) ;
 
@@ -108,11 +108,12 @@ public class Game {
 
 	public void play() {
 		update();
-		int moveNr = 0;
+		int current = 0;
 		while (!this.gameOver(board)) {
-			players[moveNr % 2].makeMove(board);
+			players[current % 2].makeMove(board);
+			current++;
 			update();
-			moveNr++;
+
 		}
 		printResult();
 
@@ -134,6 +135,7 @@ public class Game {
 
 	public void update() {
 		System.out.println("\ncurrent game situation: \n\n" + board.toString() + "\n");
+		System.out.println("Player: "+ this.current);
 	}
 
 	public void printRules() {

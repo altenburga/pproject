@@ -24,14 +24,14 @@ public class Humanplayer extends Player {
 		if (board.boardEmpty() && height == 0) {
 			valid = true;
 		}
-		if (board.isEmpty(col, row, height) && height == 0) {
+		if (board.isEmpty(col, height, row) && height == 0) {
 			valid = true;
 		}
 		if (height >= 4) {
 			valid = false;
 		}
-		if (board.isEmpty(col, row, height) && height != 0) {
-			if (board.isEmpty(col, row - 1, height)) {
+		if (board.isEmpty(col, height, row) && height != 0) {
+			if (board.isEmpty(col, height - 1, row)) {
 				valid = false;
 			} else {
 				valid = true;
