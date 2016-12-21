@@ -113,14 +113,24 @@ public class GameTest {
 	
 	@Test
 	public void testGameOver() {
+		battle.firstPlayer();
+		assertTrue(battle.getCurrentPlayer() == s1);
 		 s0.setColor(Color.RED);
 		 Color col = s0.getColor();
 		 Board bor = new Board();
 		 Field place = new Field(0, 0, 0, Color.RED);
-		 bor.setField(0, 0, 0, Color.RED);
-		 bor.setField(1, 0, 0, Color.RED);
-		 bor.setField(2, 0, 0, Color.RED);
-		 bor.setField(3, 0, 0, Color.RED);
+		 Field place1 = new Field(1, 0, 0, Color.RED);
+		 Field place2 = new Field(2, 0, 0, Color.RED);
+		 Field place3 = new Field(3, 0, 0, Color.RED);
+		 Field place4 = new Field(1, 1, 0, Color.RED);
+		 s0.makeMove(bor, place1);
+		 s0.makeMove(bor, place);
+		 s0.makeMove(bor, place3);
+		 s0.makeMove(bor, place2); 
+//		 bor.setField(0, 0, 0, Color.RED);
+//		 bor.setField(1, 0, 0, Color.RED);
+//		 bor.setField(2, 0, 0, Color.RED);
+//		 bor.setField(3, 0, 0, Color.RED);
 		 assertTrue(bor.getRow(place) == true);
 		 assertTrue(battle.hasWinner() == true);
 		 assertTrue(battle.gameOver() == true);

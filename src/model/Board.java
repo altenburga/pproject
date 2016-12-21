@@ -172,6 +172,20 @@ public class Board {
 		}
 		return row;
 	}
+	
+	public boolean isFull(){
+		for (int i = 0; i < (DIM); i++) {
+			for (int j = 0; j < (DIM); j++) {
+				for (int z = 0; z < DIM; z++) {
+					if(fields[i][j][z] == Color.EMPTY){
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+		
+	}
 
 	public void showBoard() {
 		System.out.println("         Z = 0" + "                           Z = 1                         Z = 2                         Z = 3");

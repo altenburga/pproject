@@ -7,48 +7,26 @@ import java.util.Scanner;
 import model.*;
 import view.*;
 
-
 public class Game {
-	private Board board;
-	
+
 	private Player[] players;
-	public Player currentPlayer;
-	boolean finished = false;
-	private boolean finishedturn;
-	private Color winningColor;
-	public static final int NUMBER_PLAYERS = 2;
+	private Board board;
+	private int current;
+	public static final int NUMBER_OF_PLAYERS = 2;
 
 	public Game(Player s0, Player s1) {
 		board = new Board();
-        players = new Player[NUMBER_PLAYERS];
-        players[0] = s0;
-        players[1] = s1;
+		players = new Player[NUMBER_OF_PLAYERS];
+		players[0] = s0;
+		players[1] = s1;
+		current = 0;
 	}
 
 	public void namePlayers() {
-		boolean read = false;
-		Scanner in = new Scanner(System.in);
-		while (!read) {
-			System.out.println(
-					"What is the name of player one?(If you want to be a computerPlayer, let your name start with a C.)");
-			String i = in.next();
-			players[0].setName(i);
-			System.out.println(
-					"What is the name of player one?(If you want to be a computerPlayer, let your name start with a C.)");
-			String o = in.next();
-			players[1].setName(o);
-			read = true;
-			in.close();
-		}
-
 	}
 
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	public boolean turnFinished() {
-		return finishedturn;
+	public int getCurrentPlayer() {
+		return current;
 	}
 
 	public Player firstPlayer() {
@@ -65,15 +43,7 @@ public class Game {
 	}
 
 	public void newCurrentPlayer() {
-		Player newCurrentPlayer = players[0];
-		if (players[0] == currentPlayer) {
-			 newCurrentPlayer = players[1];
-		} else {
-			newCurrentPlayer = players[0];
-		}
-		currentPlayer = newCurrentPlayer;
 	}
-
 	public boolean validMove(Field choice, Board board) {
 		boolean valid = false;
 		int x = choice.getX();
@@ -100,120 +70,82 @@ public class Game {
 
 	}
 
-	public String isWinner() {
-		String winner = new String();
-		if(players[0].getColor() == winningColor){
-			winner = players[0].getName() + players[0].getColor();
-			
-		}else {
-			winner = players[1].getName() + players[1].getColor();
-			
+	public Boolean isWinner(Color c) {
+		Boolean waar = false;
+		Color one = players[1].getColor();
+		Color zero = players[0].getColor();
+		if (one == c) {
+			waar = board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(players[1].lastTile())
+					|| board.getRow(players[1].lastTile());
+		} else if (zero == c) {
+			waar = board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(players[0].lastTile())
+					|| board.getRow(players[0].lastTile());
 		}
-		return winner;
+		return waar;
+
 	}
 
 	public boolean hasWinner() {
-		boolean fourrow = false;
-		winningColor = last.getColor();
-		if(board.getCol(last) == true || board.getRow(last) == true){
-			fourrow = true;			
-		}
-		if(board.getXdiag(currentPlayer.getColor()) == true || board.getZdiag(currentPlayer.getColor()) || board.getDiagDiag(currentPlayer.getColor())){
-			fourrow = true;
-		}
-		
-		return fourrow;
+		return isWinner(Color.RED) || isWinner(Color.YELLOW);
+
 	}
 
 	public void reset() {
+		current = 0;
 		board.reset();
 		players[0].reset();
 		players[1].reset();
 	}
 
-	public void startGame() {
+	public void start() {
 		boolean doorgaan = true;
 		while (doorgaan) {
-			System.out.println("Do you want to see the game rules?");
-			System.out.println("Yes ------------------ 1");
-			System.out.println("No ------------------- 0");
-			int k = new Scanner(System.in).nextInt();
-			if (k == 1) {
-				printRules();
-			}
 			reset();
 			play();
-			System.out.println("Do you want to play another game of 4 in a row 3D? ");
-			System.out.println("Yes ------------------ 1");
-			System.out.println("No ------------------- 0");
-			int i = new Scanner(System.in).nextInt();
-			if (i == 0) {
-				System.out.println("Thank you for playing 4 in a row 3D!");
-				doorgaan = false;
-			}
-		}
-	}
-
-	public void play(){
-		finished = false;
-		finishedturn = false;
-		while (!finished && !finishedturn) {
-			if (board.boardEmpty()) {
-				currentPlayer = firstPlayer();
-				board.showBoard();
-				System.out.println(currentPlayer.getName() + currentPlayer.showHand());
-
-			}
-
-			if (!currentPlayer.getName().startsWith("C")) {
-
-				boolean placed = false;
-				while (!placed) {
-						Board cboard = board.Deepcopy();
-						currentPlayer.determineMove(board);
-						Board dboard = board.Deepcopy();
-						int i = 0;
-						int j = 0;
-						int z = 0;
-						if (!cboard.getField(i, j, z).equals(dboard.getField(i, j, z))) {
-							placed = true;
-							finishedturn = true;
-								}
-
-
-				
-			else {
-				currentPlayer.determineMove(board);
-				finishedturn =true;
-
-			}
-			this.hasWinner();
-			if (gameOver()) {
-					System.out.println("The winner is : " + isWinner() + "!");
-					finished = true;
-				}
-			}
-			if (!gameOver()) {
-				this.newCurrentPlayer();
-				update();
-			}
+			doorgaan = readBoolean("\n> Play another game? (y/n)?", "y", "n");
 		}
 
 	}
+
+	private boolean readBoolean(String prompt, String yes, String no) {
+		String answer;
+		do {
+			System.out.print(prompt);
+			try (Scanner in = new Scanner(System.in)) {
+				answer = in.hasNextLine() ? in.nextLine() : null;
+			}
+		} while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
+		return answer.equals(yes);
+	}
+
+	public void play() {
+		update();
+		int moveNr = 0;
+		while (!this.gameOver()) {
+			players[moveNr % 2].makeMove(board);
+			update();
+			moveNr++;
+		}
+		printResult();
 
 	}
 
 	public boolean gameOver() {
-		boolean finished = false;
-		if(this.hasWinner() == true){
-			finished = true;
+		return board.isFull() || hasWinner();
+
+	}
+
+	private void printResult() {
+		if (this.hasWinner()) {
+			Player winner = this.isWinner(players[0].getColor()) ? players[0] : players[1];
+			System.out.println("Speler " + winner.getName() + " (" + winner.getColor().toString() + ") has won!");
+		} else {
+			System.out.println("Draw. There is no winner!");
 		}
-		return finished;
 	}
 
 	public void update() {
-		board.showBoard();
-		System.out.println(currentPlayer.getName() + currentPlayer.showHand());
+		System.out.println("\ncurrent game situation: \n\n" + board.toString() + "\n");
 	}
 
 	public void printRules() {

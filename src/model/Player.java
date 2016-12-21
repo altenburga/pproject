@@ -50,22 +50,21 @@ public abstract class Player {
 		}
 
 		
-	public abstract void determineMove(Board board);
+	public abstract Field determineMove(Board board);
 	
 	
 	public void clearHand() {
 		pHand = new ArrayList<Color>();
 
 	}
-	public void makeMove(Board board, Field move) {
-		Board bcopy = board.Deepcopy();
-		if (move != null) {
-			lastMove = move;
-			int x = move.getX();
-			int y = move.getY();
-			int z = move.getZ();
-			Color one = move.getColor();
-			bcopy.setField(x,y,z,one);
+	public void makeMove(Board board) {
+    	Field choice = determineMove(board);
+		if (choice != null) {
+			lastMove = choice;
+			int x = choice.getX();
+			int y = choice.getY();
+			int z = choice.getZ();
+			Color one = choice.getColor();
 			board.setField(x, y, z, one);
 		} 
 		else {
