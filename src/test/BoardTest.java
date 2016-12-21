@@ -32,40 +32,40 @@ public class BoardTest {
 	public void testSetAndGetField() {
 		board.setField(0, 0, 0, Color.RED);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
-		assertEquals(Color.EMPTY, board.getField(1, 1, 1));
+		assertEquals(Color.EMP, board.getField(1, 1, 1));
 	}
 
 	@Test
 	public void testSetField() {
 		board.setField(0, 0, 0, Color.RED);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
-		assertEquals(Color.EMPTY, board.getField(1, 0, 0));
-		assertEquals(Color.EMPTY, board.getField(0, 1, 0));
-		assertEquals(Color.EMPTY, board.getField(0, 0, 1));
-		assertEquals(Color.EMPTY, board.getField(1, 0, 0));
-		assertEquals(Color.EMPTY, board.getField(1, 0, 1));
-		assertEquals(Color.EMPTY, board.getField(1, 1, 0));
-		assertEquals(Color.EMPTY, board.getField(1, 1, 1));
+		assertEquals(Color.EMP, board.getField(1, 0, 0));
+		assertEquals(Color.EMP, board.getField(0, 1, 0));
+		assertEquals(Color.EMP, board.getField(0, 0, 1));
+		assertEquals(Color.EMP, board.getField(1, 0, 0));
+		assertEquals(Color.EMP, board.getField(1, 0, 1));
+		assertEquals(Color.EMP, board.getField(1, 1, 0));
+		assertEquals(Color.EMP, board.getField(1, 1, 1));
 	}
 
 	@Test
 	public void testSetup() {
-		assertEquals(Color.EMPTY, board.getField(0, 0, 0));
+		assertEquals(Color.EMP, board.getField(0, 0, 0));
 	}
 
 	@Test
 	public void testReset() {
 		board.reset();
-		assertEquals(Color.EMPTY, board.getField(0, 0, 0));
+		assertEquals(Color.EMP, board.getField(0, 0, 0));
 	}
 
 	@Test
 	public void testDeepCopy() {
 		board.setField(0, 0, 0, Color.RED);
 		Board deepCopyBoard = board.Deepcopy();
-		deepCopyBoard.setField(0, 0, 0, Color.YELLOW);
+		deepCopyBoard.setField(0, 0, 0, Color.YEL);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
-		assertEquals(Color.YELLOW, deepCopyBoard.getField(0, 0, 0));
+		assertEquals(Color.YEL, deepCopyBoard.getField(0, 0, 0));
 	}
 
 	@Test
@@ -110,15 +110,14 @@ public class BoardTest {
 		board.setField(1, 0, 0, Color.RED);
 		Field one = new Field(0, 0, 0, Color.RED);
 		Field two = new Field(1, 0, 0, Color.RED);
-		Field three = new Field(1, 0, 0, Color.YELLOW);
-		assertFalse(board.getRow(one));
-		assertFalse(board.getRow(three));
+		Field three = new Field(1, 0, 0, Color.YEL);
+		assertFalse(board.getXRow(Color.RED));
+		assertFalse(board.getXRow(Color.RED));
 		
 		board.setField(2, 0, 0, Color.RED);
 		board.setField(3, 0, 0, Color.RED);
-		assertTrue(board.getRow(one));
-		assertTrue(board.getRow(two));
-		assertFalse(board.getRow(three));
+		assertTrue(board.getXRow(Color.RED));
+
 
 	}
 	
@@ -129,15 +128,13 @@ public class BoardTest {
 		board.setField(0, 0, 1, Color.RED);
 		Field one = new Field(0, 0, 0, Color.RED);
 		Field two = new Field(0, 0, 1, Color.RED);
-		Field three = new Field(0, 0, 1, Color.YELLOW);
-		assertFalse(board.getRow(one));
-		assertFalse(board.getRow(three));
+		Field three = new Field(0, 0, 1, Color.YEL);
+		assertFalse(board.getZRow(Color.RED));
 		
 		board.setField(0, 0, 2, Color.RED);
 		board.setField(0, 0, 3, Color.RED);
-		assertTrue(board.getRow(one));
-		assertTrue(board.getRow(two));
-		assertFalse(board.getRow(three));
+		assertTrue(board.getZRow(Color.RED));
+		assertFalse(board.getZRow(Color.YEL));
 
 	}
 
@@ -148,15 +145,14 @@ public class BoardTest {
 		board.setField(0, 1, 0, Color.RED);
 		Field one = new Field(0, 0, 0, Color.RED);
 		Field two = new Field(0, 1, 0, Color.RED);
-		Field three = new Field(0, 1, 0, Color.YELLOW);
-		assertFalse(board.getCol(one));
-		assertFalse(board.getCol(three));
+		Field three = new Field(0, 1, 0, Color.YEL);
+		assertFalse(board.getCol(Color.RED));
+		assertFalse(board.getCol(Color.YEL));
 		
 		board.setField(0, 2, 0, Color.RED);
 		board.setField(0, 3, 0, Color.RED);
-		assertTrue(board.getCol(one));
-		assertTrue(board.getCol(two));
-		assertFalse(board.getCol(three));
+		assertTrue(board.getCol(Color.RED));
+		assertFalse(board.getCol(Color.YEL));
 	}
 
 	@Test
@@ -166,11 +162,11 @@ public class BoardTest {
 		board.setField(1, 1, 1, Color.RED);
 		board.setField(2, 2, 2, Color.RED);
 		assertFalse(board.getDiagDiag(Color.RED));
-		assertFalse(board.getDiagDiag(Color.YELLOW));
+		assertFalse(board.getDiagDiag(Color.YEL));
 		
 		board.setField(3, 3, 3, Color.RED);
 		assertTrue(board.getDiagDiag(Color.RED));
-		assertFalse(board.getDiagDiag(Color.YELLOW));
+		assertFalse(board.getDiagDiag(Color.YEL));
 
 	}
 	
@@ -180,12 +176,12 @@ public class BoardTest {
 		board.setField(0, 0, 3, Color.RED);
 		board.setField(0, 3, 0, Color.RED);
 		assertFalse(board.getXdiag(Color.RED));
-		assertFalse(board.getXdiag(Color.YELLOW));
+		assertFalse(board.getXdiag(Color.YEL));
 		
 		board.setField(0, 1, 2, Color.RED);
 		board.setField(0, 2, 1, Color.RED);
 		assertTrue(board.getXdiag(Color.RED));
-		assertFalse(board.getXdiag(Color.YELLOW));
+		assertFalse(board.getXdiag(Color.YEL));
 		
 	}
 	
@@ -195,12 +191,12 @@ public class BoardTest {
 		board.setField(0, 0, 0, Color.RED);
 		board.setField(0, 3, 3, Color.RED);
 		assertFalse(board.getXdiag(Color.RED));
-		assertFalse(board.getXdiag(Color.YELLOW));
+		assertFalse(board.getXdiag(Color.YEL));
 		
 		board.setField(0, 2, 2, Color.RED);
 		board.setField(0, 1, 1, Color.RED);
 		assertTrue(board.getXdiag(Color.RED));
-		assertFalse(board.getXdiag(Color.YELLOW));
+		assertFalse(board.getXdiag(Color.YEL));
 		
 	}
 	
@@ -210,12 +206,12 @@ public class BoardTest {
 		board.setField(0, 3, 0, Color.RED);
 		board.setField(3, 0, 0, Color.RED);
 		assertFalse(board.getZdiag(Color.RED));
-		assertFalse(board.getZdiag(Color.YELLOW));
+		assertFalse(board.getZdiag(Color.YEL));
 		
 		board.setField(1, 2, 0, Color.RED);
 		board.setField(2, 1, 0, Color.RED);
 		assertTrue(board.getZdiag(Color.RED));
-		assertFalse(board.getZdiag(Color.YELLOW));
+		assertFalse(board.getZdiag(Color.YEL));
 		
 	}
 	
@@ -225,12 +221,12 @@ public class BoardTest {
 		board.setField(0, 0, 0, Color.RED);
 		board.setField(3, 3, 0, Color.RED);
 		assertFalse(board.getZdiag(Color.RED));
-		assertFalse(board.getZdiag(Color.YELLOW));
+		assertFalse(board.getZdiag(Color.YEL));
 		
 		board.setField(2, 2, 0, Color.RED);
 		board.setField(1, 1, 0, Color.RED);
 		assertTrue(board.getZdiag(Color.RED));
-		assertFalse(board.getZdiag(Color.YELLOW));
+		assertFalse(board.getZdiag(Color.YEL));
 		
 	}
 }
