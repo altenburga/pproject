@@ -16,7 +16,7 @@ public class Game {
 	boolean finished = false;
 	private boolean finishedturn;
 	private Color winningColor;
-	 public static final int NUMBER_PLAYERS = 2;
+	public static final int NUMBER_PLAYERS = 2;
 
 	public Game(Player s0, Player s1) {
 		board = new Board();
@@ -114,7 +114,6 @@ public class Game {
 
 	public boolean hasWinner() {
 		boolean fourrow = false;
-		Field last = currentPlayer.lastTile();
 		winningColor = last.getColor();
 		if(board.getCol(last) == true || board.getRow(last) == true){
 			fourrow = true;			

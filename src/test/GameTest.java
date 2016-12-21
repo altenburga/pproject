@@ -121,7 +121,8 @@ public class GameTest {
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
 		 bor.setField(3, 0, 0, Color.RED);
-		 bor.getRow(place);
+		 assertTrue(bor.getRow(place) == true);
+		 assertTrue(battle.hasWinner() == true);
 		 assertTrue(battle.gameOver() == true);
 	}
 	/*
