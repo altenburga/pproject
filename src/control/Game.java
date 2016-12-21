@@ -71,30 +71,18 @@ public class Game {
 	}
 
 	public Boolean isWinner(Color c) {
-		Boolean waar = false;
-		Color one = players[1].getColor();
-		Color zero = players[0].getColor();
-		if (one == c) {
-			waar = board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(players[1].lastTile())
-					|| board.getRow(players[1].lastTile());
-		} else if (zero == c) {
-			waar = board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(players[0].lastTile())
-					|| board.getRow(players[0].lastTile());
-		}
-		return waar;
+		return board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(c) || board.getZRow(c) || board.getXRow(c) ;
 
 	}
 
 	public boolean hasWinner() {
-		return isWinner(Color.RED) || isWinner(Color.YELLOW);
+		return isWinner(Color.RED) || isWinner(Color.YEL);
 
 	}
 
 	public void reset() {
 		current = 0;
 		board.reset();
-		players[0].reset();
-		players[1].reset();
 	}
 
 	public void start() {

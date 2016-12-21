@@ -8,14 +8,14 @@ import control.Game;
 public abstract class Player {
 	private String name;
 	public List<Color> pHand;
-	public Color color;
+	public static Color color;
 	protected Game game;
 	private Field lastMove;
 	
-	public Player(String name, Game game) {
+	public Player(String name, Color color) {
 		this.name = name;
-		this.game = game;
 		pHand = new ArrayList<Color>();
+		this.color = color;
 	}
 	public String getName() {
 		return name;

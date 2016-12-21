@@ -18,11 +18,10 @@ public class GameTest {
 	public Game battle;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		s0 = new Humanplayer("Lieke", Color.RED);
+		s1 = new Humanplayer("Amber", Color.YEL);
 		battle = new Game(s0, s1);
-		s0 = new Humanplayer("Lieke", battle, Color.RED);
-		s1 = new Humanplayer("Amber", battle, Color.YELLOW);
-		
 	}
 
 	
@@ -48,25 +47,24 @@ public class GameTest {
 		Field place3 = new Field(0,3,0,Color.RED);
 		assertTrue(battle.validMove(place3, one));
 		one.setField(place3);
-		Field place5 = new Field(0,1,0,Color.YELLOW);
+		Field place5 = new Field(0,1,0,Color.YEL);
 		assertFalse(battle.validMove(place5, one));
-		Field place6 = new Field(1,3,1,Color.YELLOW);
+		Field place6 = new Field(1,3,1,Color.YEL);
 		assertFalse(battle.validMove(place6, one));
-		Field place7 = new Field(5,5,5,Color.YELLOW);
+		Field place7 = new Field(5,5,5,Color.YEL);
 		assertFalse(battle.validMove(place7, one));
 	}
 	@Test
 	public void testisWinner() {
 		 s0.setColor(Color.RED);
-		 s1.setColor(Color.YELLOW);
+		 s1.setColor(Color.YEL);
 		 Board bor = new Board();
 		 Field place = new Field(0, 0, 0, Color.RED);
 		 bor.setField(0, 0, 0, Color.RED);
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
-//		 bor.setField(3, 0, 0, Color.RED);
-		 s0.makeMove(bor);
-		 assertTrue(bor.getRow(place) == true);
+		 bor.setField(3, 0, 0, Color.RED);
+		 assertTrue(bor.getXRow(Color.RED) == true);
 		 assertEquals(battle.isWinner(Color.RED), true);
 		 
 	}
@@ -80,7 +78,7 @@ public class GameTest {
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
 		 bor.setField(3, 0, 0, Color.RED);
-		 bor.getRow(place);
+		 bor.getXRow(Color.RED);
 		 assertTrue(battle.hasWinner() == true);
 	}
 	/*
@@ -112,7 +110,7 @@ public class GameTest {
 //		 bor.setField(1, 0, 0, Color.RED);
 //		 bor.setField(2, 0, 0, Color.RED);
 //		 bor.setField(3, 0, 0, Color.RED);
-		 assertTrue(bor.getRow(place) == true);
+		 assertTrue(bor.getXRow(Color.RED) == true);
 		 assertTrue(battle.hasWinner() == true);
 		 assertTrue(battle.gameOver() == true);
 	}

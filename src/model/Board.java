@@ -12,7 +12,7 @@ public class Board {
 		for (int i = 0; i < DIM; i++) {
 			for (int j = 0; j < DIM; j++) {
 				for (int z = 0; z < DIM; z++) {
-					fields[i][j][z] = Color.EMPTY;
+					fields[i][j][z] = Color.EMP;
 				}
 
 			}
@@ -68,7 +68,7 @@ public class Board {
 		for (int i = 0; i < DIM; i++) {
 			for (int j = 0; j < DIM; j++) {
 				for (int z = 0; z < DIM; z++) {
-					fields[i][j][z] = Color.EMPTY;
+					fields[i][j][z] = Color.EMP;
 				}
 
 			}
@@ -77,7 +77,7 @@ public class Board {
 	}
 
 	public boolean isEmpty(int i, int j, int z) {
-		return getField(i, j, z) == Color.EMPTY;
+		return getField(i, j, z) == Color.EMP;
 
 	}
 
@@ -86,7 +86,7 @@ public class Board {
 		for (int i = 0; i < (DIM); i++) {
 			for (int j = 0; j < (DIM); j++) {
 				for (int z = 0; z < DIM; z++) {
-					if (fields[i][j][z] == Color.EMPTY) {
+					if (fields[i][j][z] == Color.EMP) {
 						empty = true;
 					}
 
@@ -99,12 +99,12 @@ public class Board {
 
 	}
 
-	public boolean getCol(Field choice) {
+/*	public boolean getCol1(Field choice) {
 		boolean column = false;
 		int x = choice.getX();
 //		int y = choice.getY();
 		int z = choice.getZ();
-		if (choice.getColor() != Color.EMPTY) {
+		if (choice.getColor() != Color.EMP) {
 			Color color = choice.getColor();
 			if (fields[x][0][z] == color && fields[x][1][z] == color && fields[x][2][z] == color
 					&& fields[x][3][z] == color) {
@@ -114,13 +114,26 @@ public class Board {
 		return column;
 
 	}
+	*/
+	
+	public boolean getCol(Color color){
+		boolean column = false;
+		for (int i = 0; i < (DIM); i++) {
+			for (int j = 0; j < (DIM); j++) {
+				if(fields[i][3][j] == color){
+					column = (fields[i][2][j] == color && fields[i][1][j] == color && fields[i][0][j] == color);	
+					}
+				}
+			}
+		return column;
+	}
 
-	public boolean getRow(Field choice) {
+/*	public boolean getRow(Field choice) {
 		boolean row = false;
 		int x = choice.getX();
 		int y = choice.getY();
 		int z = choice.getZ();
-		if (choice.getColor() != Color.EMPTY) {
+		if (choice.getColor() != Color.EMP) {
 			Color col = choice.getColor();
 			if (fields[0][y][z] == col && fields[1][y][z] == col && fields[2][y][z] == col && fields[3][y][z] == col) {
 				row = true;
@@ -132,7 +145,31 @@ public class Board {
 		return row;
 
 	}
-
+*/
+	public boolean getXRow(Color choice){
+		boolean xRow = false;
+		for (int i = 0; i < (DIM); i++) {
+			for (int j = 0; j < (DIM); j++) {
+				if(fields[0][i][j] == choice){
+					xRow = (fields[1][i][j] == choice&& fields[2][i][j] == choice &&fields[3][i][j] == choice);
+				}
+			}
+		}
+		return xRow;
+	}
+	
+	public boolean getZRow(Color choice){
+		boolean zRow = false;
+		for (int i = 0; i < (DIM); i++) {
+			for (int j = 0; j < (DIM); j++) {
+				if(fields[i][j][0] == choice){
+					zRow = (fields[i][j][1] == choice&& fields[i][j][2] == choice &&fields[i][j][3] == choice);
+				}
+			}
+		}
+		return zRow;
+	}
+	
 	public boolean getDiagDiag(Color color) {
 		boolean row = false;
 		if (fields[0][0][0] == color && fields[1][1][1] == color && fields[2][2][2] == color && fields[3][3][3] == color
@@ -184,7 +221,7 @@ public class Board {
 		for (int i = 0; i < (DIM); i++) {
 			for (int j = 0; j < (DIM); j++) {
 				for (int z = 0; z < DIM; z++) {
-					if(fields[i][j][z] == Color.EMPTY){
+					if(fields[i][j][z] == Color.EMP){
 						return false;
 					}
 				}
