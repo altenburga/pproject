@@ -20,8 +20,8 @@ public class GameTest {
 	@Before
 	public void setUp() throws Exception {
 		battle = new Game(s0, s1);
-		s0 = new Humanplayer("Lieke", battle);
-		s1 = new Humanplayer("Amber", battle);
+		s0 = new Humanplayer("Lieke", battle, Color.RED);
+		s1 = new Humanplayer("Amber", battle, Color.YELLOW);
 		
 	}
 
@@ -58,15 +58,16 @@ public class GameTest {
 	@Test
 	public void testisWinner() {
 		 s0.setColor(Color.RED);
-		 Color col = s1.getColor();
+		 s1.setColor(Color.YELLOW);
 		 Board bor = new Board();
 		 Field place = new Field(0, 0, 0, Color.RED);
 		 bor.setField(0, 0, 0, Color.RED);
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
-		 bor.setField(3, 0, 0, Color.RED);
-		 bor.getRow(place);
-		 assertEquals(battle.isWinner(Color.RED), s0.getName() + s0.getColor());
+//		 bor.setField(3, 0, 0, Color.RED);
+		 s0.makeMove(bor);
+		 assertTrue(bor.getRow(place) == true);
+		 assertEquals(battle.isWinner(Color.RED), true);
 		 
 	}
 	@Test
@@ -103,10 +104,10 @@ public class GameTest {
 		 Field place2 = new Field(2, 0, 0, Color.RED);
 		 Field place3 = new Field(3, 0, 0, Color.RED);
 		 Field place4 = new Field(1, 1, 0, Color.RED);
-		 s0.makeMove(bor);
-		 s0.makeMove(bor);
-		 s0.makeMove(bor);
-		 s0.makeMove(bor); 
+		 bor.setField(place1);
+		 bor.setField(place2);
+		 bor.setField(place3);
+		 bor.setField(place);
 //		 bor.setField(0, 0, 0, Color.RED);
 //		 bor.setField(1, 0, 0, Color.RED);
 //		 bor.setField(2, 0, 0, Color.RED);

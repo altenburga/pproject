@@ -49,16 +49,16 @@ public class Game {
 		int x = choice.getX();
 		int y = choice.getY();
 		int z = choice.getZ();
-		if (board.boardEmpty() && y == 1) {
+		if (board.boardEmpty() && y == 0) {
 			valid = true;
 		}
-		if (board.isEmpty(x, y, z) && y == 1) {
+		if (board.isEmpty(x, y, z) && y == 0) {
 			valid = true;
 		}
-		if (y >= 5) {
+		if (y >= 4) {
 			valid = false;
 		}
-		if (board.isEmpty(x, y, z) && y != 1) {
+		if (board.isEmpty(x, y, z) && y != 0) {
 			if (board.isEmpty(x, y - 1, z)) {
 				valid = false;
 			} else {
