@@ -108,16 +108,13 @@ public class BoardTest {
 		
 		board.setField(0, 0, 0, Color.RED);
 		board.setField(1, 0, 0, Color.RED);
-		Field one = new Field(0, 0, 0, Color.RED);
-		Field two = new Field(1, 0, 0, Color.RED);
-		Field three = new Field(1, 0, 0, Color.YEL);
 		assertFalse(board.getXRow(Color.RED));
 		assertFalse(board.getXRow(Color.RED));
 		
 		board.setField(2, 0, 0, Color.RED);
 		board.setField(3, 0, 0, Color.RED);
+		board.toString();
 		assertTrue(board.getXRow(Color.RED));
-
 
 	}
 	

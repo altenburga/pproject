@@ -204,7 +204,7 @@ public class Board {
 		return row;
 	}
 
-	public boolean isFull() {
+	public boolean isFull(Board b) {
 		for (int i = 0; i < (DIM); i++) {
 			for (int j = 0; j < (DIM); j++) {
 				for (int z = 0; z < DIM; z++) {

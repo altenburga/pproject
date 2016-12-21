@@ -16,15 +16,15 @@ public class GameTest {
 	public Player s0;
 	public Player s1;
 	public Game battle;
+	public Board bor;
 	
 	@Before
 	public void setUp() {
 		s0 = new Humanplayer("Lieke", Color.RED);
 		s1 = new Humanplayer("Amber", Color.YEL);
 		battle = new Game(s0, s1);
+		bor = new Board();
 	}
-
-	
 
 /*	@Test
 	public void testFirstPlayer() {
@@ -58,14 +58,12 @@ public class GameTest {
 	public void testisWinner() {
 		 s0.setColor(Color.RED);
 		 s1.setColor(Color.YEL);
-		 Board bor = new Board();
-		 Field place = new Field(0, 0, 0, Color.RED);
 		 bor.setField(0, 0, 0, Color.RED);
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
 		 bor.setField(3, 0, 0, Color.RED);
 		 assertTrue(bor.getXRow(Color.RED) == true);
-		 assertEquals(battle.isWinner(Color.RED), true);
+		 assertEquals(battle.isWinner(bor, Color.RED), true);
 		 
 	}
 	@Test
@@ -78,8 +76,9 @@ public class GameTest {
 		 bor.setField(1, 0, 0, Color.RED);
 		 bor.setField(2, 0, 0, Color.RED);
 		 bor.setField(3, 0, 0, Color.RED);
+		 bor.toString();
 		 bor.getXRow(Color.RED);
-		 assertTrue(battle.hasWinner() == true);
+		 assertTrue(battle.hasWinner(bor) == true);
 	}
 	/*
 	@Test
@@ -106,13 +105,9 @@ public class GameTest {
 		 bor.setField(place2);
 		 bor.setField(place3);
 		 bor.setField(place);
-//		 bor.setField(0, 0, 0, Color.RED);
-//		 bor.setField(1, 0, 0, Color.RED);
-//		 bor.setField(2, 0, 0, Color.RED);
-//		 bor.setField(3, 0, 0, Color.RED);
 		 assertTrue(bor.getXRow(Color.RED) == true);
-		 assertTrue(battle.hasWinner() == true);
-		 assertTrue(battle.gameOver() == true);
+		 assertTrue(battle.hasWinner(bor) == true);
+		 assertTrue(battle.gameOver(bor));
 	}
 	/*
 	@Test

@@ -70,13 +70,13 @@ public class Game {
 
 	}
 
-	public Boolean isWinner(Color c) {
-		return board.getXdiag(c) || board.getDiagDiag(c) || board.getZdiag(c) || board.getCol(c) || board.getZRow(c) || board.getXRow(c) ;
+	public Boolean isWinner(Board bor, Color c) {
+		return bor.getXdiag(c) || bor.getDiagDiag(c) || bor.getZdiag(c) || bor.getCol(c) || bor.getZRow(c) || bor.getXRow(c) ;
 
 	}
 
-	public boolean hasWinner() {
-		return isWinner(Color.RED) || isWinner(Color.YEL);
+	public boolean hasWinner(Board b) {
+		return isWinner(b, Color.RED) || isWinner(b, Color.YEL);
 
 	}
 
@@ -109,7 +109,7 @@ public class Game {
 	public void play() {
 		update();
 		int moveNr = 0;
-		while (!this.gameOver()) {
+		while (!this.gameOver(board)) {
 			players[moveNr % 2].makeMove(board);
 			update();
 			moveNr++;
@@ -118,14 +118,14 @@ public class Game {
 
 	}
 
-	public boolean gameOver() {
-		return board.isFull() || hasWinner();
+	public boolean gameOver(Board b) {
+		return board.isFull(b) || hasWinner(b);
 
 	}
 
 	private void printResult() {
-		if (this.hasWinner()) {
-			Player winner = this.isWinner(players[0].getColor()) ? players[0] : players[1];
+		if (this.hasWinner(board)) {
+			Player winner = this.isWinner(board, players[0].getColor()) ? players[0] : players[1];
 			System.out.println("Speler " + winner.getName() + " (" + winner.getColor().toString() + ") has won!");
 		} else {
 			System.out.println("Draw. There is no winner!");
