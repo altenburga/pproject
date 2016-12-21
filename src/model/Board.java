@@ -48,6 +48,13 @@ public class Board {
 		fields[x][y][z] = choice;
 
 	}
+	public void setField(Field choice){
+		int x = choice.getX();
+		int y = choice.getY();
+		int z = choice.getZ();
+		Color one = choice.getColor();
+		fields[x][y][z] = one;
+	}
 
 	/*
 	 * public void setField(Field move) { Integer x = move.getX(); Integer y =

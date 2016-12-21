@@ -25,47 +25,29 @@ public class GameTest {
 		
 	}
 
-	/*@Test
-	public void testNamePlayers() {
-	}
-	*/
-	@Test
-	public void testGetCurrentPlayer() {
-		s0 = battle.currentPlayer;
-		assertEquals(battle.getCurrentPlayer(), s0);
-	}
-	@Test
-	public void testTurnFinished() {
-		assertFalse(battle.turnFinished());
 	
-	}
+
 /*	@Test
 	public void testFirstPlayer() {
 		fail("Not yet implemented");
 	}
 	*/
 	@Test
-	public void testNewCurrentPlayer() {
-		battle.currentPlayer = s0;
-		battle.newCurrentPlayer();
-//		assertTrue(s1 == battle.currentPlayer);
-		assertFalse(s0 == battle.currentPlayer);
-		battle.newCurrentPlayer();
-		assertTrue(s0 == battle.currentPlayer);
-		assertFalse(s1 == battle.currentPlayer);
-	}
-	@Test
 	public void testValidMove() {
 		Board one = new Board();
 		one.reset();
 		Field place = new Field(0,0,0,Color.RED);
 		assertTrue(battle.validMove(place, one));
+		one.setField(place);
 		Field place1 = new Field(0,1,0,Color.RED);
 		assertTrue(battle.validMove(place1, one));
+		one.setField(place1);
 		Field place2 = new Field(0,2,0,Color.RED);
 		assertTrue(battle.validMove(place2, one));
+		one.setField(place2);
 		Field place3 = new Field(0,3,0,Color.RED);
 		assertTrue(battle.validMove(place3, one));
+		one.setField(place3);
 		Field place5 = new Field(0,1,0,Color.YELLOW);
 		assertFalse(battle.validMove(place5, one));
 		Field place6 = new Field(1,3,1,Color.YELLOW);
@@ -84,7 +66,7 @@ public class GameTest {
 		 bor.setField(2, 0, 0, Color.RED);
 		 bor.setField(3, 0, 0, Color.RED);
 		 bor.getRow(place);
-		 assertEquals(battle.isWinner(), s0.getName() + s0.getColor());
+		 assertEquals(battle.isWinner(Color.RED), s0.getName() + s0.getColor());
 		 
 	}
 	@Test
@@ -113,8 +95,6 @@ public class GameTest {
 	
 	@Test
 	public void testGameOver() {
-		battle.firstPlayer();
-		assertTrue(battle.getCurrentPlayer() == s1);
 		 s0.setColor(Color.RED);
 		 Color col = s0.getColor();
 		 Board bor = new Board();
@@ -123,10 +103,10 @@ public class GameTest {
 		 Field place2 = new Field(2, 0, 0, Color.RED);
 		 Field place3 = new Field(3, 0, 0, Color.RED);
 		 Field place4 = new Field(1, 1, 0, Color.RED);
-		 s0.makeMove(bor, place1);
-		 s0.makeMove(bor, place);
-		 s0.makeMove(bor, place3);
-		 s0.makeMove(bor, place2); 
+		 s0.makeMove(bor);
+		 s0.makeMove(bor);
+		 s0.makeMove(bor);
+		 s0.makeMove(bor); 
 //		 bor.setField(0, 0, 0, Color.RED);
 //		 bor.setField(1, 0, 0, Color.RED);
 //		 bor.setField(2, 0, 0, Color.RED);
