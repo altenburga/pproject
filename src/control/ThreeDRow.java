@@ -7,8 +7,8 @@ public class ThreeDRow {
 	private static Player q;
 
 	public static void main(String[] args) {
-		Player p = new Humanplayer("Lieke", Color.RED );
-		Player q = new Humanplayer("Amber", Color.YEL);
+		Player p = new Computerplayer("Lieke");
+		Player q = new Computerplayer("Amber");
 		Game battle = new Game(p, q);
 		
 		battle.start();

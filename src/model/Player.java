@@ -8,14 +8,12 @@ import control.Game;
 public abstract class Player {
 	private String name;
 	public List<Color> pHand;
-	public static Color color;
+	public Color color;
 	protected Game game;
-	private Field lastMove;
 	
-	public Player(String name, Color color) {
+	public Player(String name) {
 		this.name = name;
 		pHand = new ArrayList<Color>();
-		this.color = color;
 	}
 	public String getName() {
 		return name;
@@ -60,7 +58,6 @@ public abstract class Player {
 	public void makeMove(Board board) {
     	Field choice = determineMove(board);
 		if (choice != null) {
-			lastMove = choice;
 			int x = choice.getX();
 			int y = choice.getY();
 			int z = choice.getZ();
@@ -72,8 +69,5 @@ public abstract class Player {
 		}
 	}
 	
-	public Field lastTile(){
-		return lastMove;
-	}
 
 }

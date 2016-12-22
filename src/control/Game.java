@@ -13,33 +13,37 @@ public class Game {
 	private Board board;
 	private int current;
 	public static final int NUMBER_OF_PLAYERS = 2;
-
+	public Player currentPlayer;
+	
 	public Game(Player s0, Player s1) {
 		board = new Board();
 		players = new Player[NUMBER_OF_PLAYERS];
 		players[0] = s0;
 		players[1] = s1;
-		current = 0;
+		players[0].setColor(Color.RED);
+		players[1].setColor(Color.YEL);
+		System.out.println(players[0].getColor());
+		System.out.println(players[1].getColor());
 	}
 
 	public void namePlayers() {
 	}
 
-	public int getCurrentPlayer() {
-		return current;
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	public void changePlayer(){
+		if(currentPlayer == players[0]){
+			currentPlayer = players[1];	
+		}
+		else {
+			currentPlayer = players[0];
+		}
+		
 	}
 
-	public Player firstPlayer() {
-		Player p = players[0];
-		int temp = (Math.random() <= 0.5) ? 1 : 2;
-		if (temp == 1) {
-			p = players[0];
-		}
-		if (temp == 2) {
-			p = players[1];
-
-		}
-		return p;
+	public void firstPlayer() {
+		currentPlayer =  players[1];
 	}
 
 	public void newCurrentPlayer() {
@@ -89,7 +93,7 @@ public class Game {
 		boolean doorgaan = true;
 		while (doorgaan) {
 			reset();
-			play();
+			play(board);
 			doorgaan = readBoolean("\n> Play another game? (y/n)?", "y", "n");
 		}
 
@@ -106,12 +110,12 @@ public class Game {
 		return answer.equals(yes);
 	}
 
-	public void play() {
+	public void play(Board board) {
+		this.firstPlayer();
 		update();
-		int current = 0;
 		while (!this.gameOver(board)) {
-			players[current % 2].makeMove(board);
-			current++;
+			currentPlayer.makeMove(board);
+			this.changePlayer();
 			update();
 
 		}
@@ -135,7 +139,7 @@ public class Game {
 
 	public void update() {
 		System.out.println("\ncurrent game situation: \n\n" + board.toString() + "\n");
-		System.out.println("Player: "+ this.current);
+		System.out.println("Player: "+ this.currentPlayer.getName() + "\n" + "Color: " + this.getCurrentPlayer().getColor());
 	}
 
 	public void printRules() {

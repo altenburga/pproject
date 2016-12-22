@@ -20,8 +20,8 @@ public class PlayerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		one = new Humanplayer("Lieke", Color.RED);
-		two = new Humanplayer("Amber", Color.YEL);
+		one = new Humanplayer("Lieke");
+		two = new Humanplayer("Amber");
 		board = new Board();
 	}
 

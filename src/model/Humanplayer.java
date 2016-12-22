@@ -6,15 +6,14 @@ public class Humanplayer extends Player {
 // x = column, y = height, z = row;
 	private Scanner in;
 
-	public Humanplayer(String name, Color color) {
-		super(name, color);
+	public Humanplayer(String name) {
+		super(name);
 		in = new Scanner(System.in);
 	}
 
 	@Override
 	public Field determineMove(Board board) {
 		boolean valid = false;
-		Field end = new Field(0, 0, 0, null);
 		Field choice = new Field(0, 0, 0, color);
 		int col = askColumn();
 		int row = askRow();
@@ -41,9 +40,9 @@ public class Humanplayer extends Player {
 			System.out.println("That is not a valid place, try again!");
 		}
 		else{
-			end = choice;
+			choice = place;
 		}
-		return end;
+		return choice;
 
 	}
 	
