@@ -17,29 +17,19 @@ public class Humanplayer extends Player {
 		Field choice = new Field(0, 0, 0, color);
 		int col = askColumn();
 		int row = askRow();
-		int height = askHeight();
 		Color tile = this.getColor();
-		Field place = new Field(col, height, row, tile);
-		if (board.boardEmpty() && height == 0) {
-			valid = true;
-		}
-		if (board.isEmpty(col, height, row) && height == 0) {
-			valid = true;
-		}
-		if (height >= 4) {
-			valid = false;
-		}
-		if (board.isEmpty(col, height, row) && height != 0) {
-			if (board.isEmpty(col, height - 1, row)) {
-				valid = false;
-			} else {
-				valid = true;
+		Field place = new Field(0, 0, 0, null);
+		for(int j = 0; j < 4; j++){
+			if(board.isEmpty(col, j, row)){
+				place = new Field(col, j, row, tile);
+				break;
 			}
 		}
-		if(valid == false){
-			System.out.println("That is not a valid place, try again!");
+		
+		if(board.validMove(choice, game)){
+			valid = true;
 		}
-		else{
+		if(valid = true){
 			choice = place;
 		}
 		return choice;
@@ -76,11 +66,12 @@ public class Humanplayer extends Player {
 
 	}
 
-	public int askHeight() {
+/*	public int askHeight() {
 		System.out.println("At what height would you like to place your tile?");
 		int height = in.nextInt();
 		return height;
 
 	}
+	*/
 
 }
