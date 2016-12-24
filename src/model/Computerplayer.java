@@ -10,29 +10,18 @@ public class Computerplayer extends Player {
 
 	@Override
 	public Field determineMove(Board board) {
-		Field choice = new Field(0, 0, 0, color);
+		Field place = new Field(0, 0, 0, null);
 		for (int i = 0; i < DIM; i++) {
+			for (int j = 0; j < DIM; j++) {
 				for (int z = 0; z < DIM; z++) {
-					if (board.isEmpty(i, 0, z)) {
-						Field place = new Field(i, 0, z, this.getColor());
-						choice = place;
+					Field choice = new Field(i, j, z, this.getColor());
+					while (board.validMove(choice, game)) {
+						place = choice;
+						break;
+					}
 				}
-					if (board.isEmpty(i, 1, z)) {
-						Field place = new Field(i, 0, z, this.getColor());
-						choice = place;
-				}
-					if (board.isEmpty(i, 2, z)) {
-						Field place = new Field(i, 0, z, this.getColor());
-						choice = place;
-				}
-					if (board.isEmpty(i, 3, z)) {
-						Field place = new Field(i, 0, z, this.getColor());
-						choice = place;
-				}
-				
-
 			}
 		}
-		return choice;
+		return place;
 	}
 }

@@ -14,7 +14,7 @@ public class Game {
 	private int current;
 	public static final int NUMBER_OF_PLAYERS = 2;
 	public Player currentPlayer;
-	
+
 	public Game(Player s0, Player s1) {
 		board = new Board();
 		players = new Player[NUMBER_OF_PLAYERS];
@@ -22,8 +22,7 @@ public class Game {
 		players[1] = s1;
 		players[0].setColor(Color.RED);
 		players[1].setColor(Color.YEL);
-		System.out.println(players[0].getColor());
-		System.out.println(players[1].getColor());
+
 	}
 
 	public void namePlayers() {
@@ -32,50 +31,32 @@ public class Game {
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	public void changePlayer(){
-		if(currentPlayer == players[0]){
-			currentPlayer = players[1];	
-		}
-		else {
+
+	public void changePlayer() {
+		if (currentPlayer == players[0]) {
+			currentPlayer = players[1];
+		} else {
 			currentPlayer = players[0];
 		}
-		
+
 	}
 
 	public void firstPlayer() {
-		currentPlayer =  players[1];
-	}
+		int temp = (Math.random() <= 0.5) ? 1 : 2;
+		if (temp == 1) {
+			currentPlayer = players[0];
+		}
+		if (temp == 2) {
+			currentPlayer = players[1];
 
-	public void newCurrentPlayer() {
-	}
-/*	public boolean validMove(Field choice, Board board) {
-		boolean valid = false;
-		int x = choice.getX();
-		int y = choice.getY();
-		int z = choice.getZ();
-		if (board.boardEmpty() && y == 0) {
-			valid = true;
-		}
-		if (board.isEmpty(x, y, z) && y == 0) {
-			valid = true;
-		}
-		if (y >= 4) {
-			valid = false;
-		}
-		if (board.isEmpty(x, y, z) && y != 0) {
-			if (board.isEmpty(x, y - 1, z)) {
-				valid = false;
-			} else {
-				valid = true;
-			}
 		}
 
-		return valid;
-
 	}
-*/
+
+
 	public Boolean isWinner(Board bor, Color c) {
-		return bor.getXdiag(c) || bor.getDiagDiag(c) || bor.getZdiag(c) || bor.getCol(c) || bor.getZRow(c) || bor.getXRow(c) ;
+		return bor.getXdiag(c) || bor.getDiagDiag(c) || bor.getZdiag(c) || bor.getCol(c) || bor.getZRow(c)
+				|| bor.getXRow(c);
 
 	}
 
@@ -139,7 +120,8 @@ public class Game {
 
 	public void update() {
 		System.out.println("\ncurrent game situation: \n\n" + board.toString() + "\n");
-		System.out.println("Player: "+ this.currentPlayer.getName() + "\n" + "Color: " + this.getCurrentPlayer().getColor());
+		System.out.println(
+				"Player: " + this.currentPlayer.getName() + "\n" + "Color: " + this.getCurrentPlayer().getColor());
 	}
 
 	public void printRules() {

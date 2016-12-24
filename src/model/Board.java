@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import control.Game;
+
 public class Board {
 	private static final int DIM = 4;
 	private Color[][][] fields;
@@ -215,6 +217,31 @@ public class Board {
 			}
 		}
 		return true;
+
+	}
+	public boolean validMove(Field choice, Game game) {
+		boolean valid = false;
+		int x = choice.getX();
+		int y = choice.getY();
+		int z = choice.getZ();
+		if (this.boardEmpty() && y == 0) {
+			valid = true;
+		}
+		if (this.isEmpty(x, y, z) && y == 0) {
+			valid = true;
+		}
+		if (y >= 4) {
+			valid = false;
+		}
+		if (this.isEmpty(x, y, z) && y != 0) {
+			if (this.isEmpty(x, y - 1, z)) {
+				valid = false;
+			} else {
+				valid = true;
+			}
+		}
+
+		return valid;
 
 	}
 
