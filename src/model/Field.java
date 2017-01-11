@@ -19,7 +19,7 @@ public class Field {
 		
 	}
 	public void setColor(Color choice){
-		if(color == Color.EMPTY){
+		if(color == Color.EMP){
 			color = choice;
 		}
 		else{

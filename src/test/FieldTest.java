@@ -12,7 +12,7 @@ public class FieldTest {
 
 	private Field place;
 	private Field please;
-	private Color choice = Color.EMPTY;
+	private Color choice = Color.EMP;
 	private Color press;
 	private Color zero = Color.RED;
 

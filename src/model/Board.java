@@ -219,7 +219,7 @@ public class Board {
 		return true;
 
 	}
-	public boolean validMove(Field choice, Game game) {
+	public boolean validMove(Field choice, Game one) {
 		boolean valid = false;
 		int x = choice.getX();
 		int y = choice.getY();

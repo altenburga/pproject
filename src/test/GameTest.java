@@ -20,8 +20,8 @@ public class GameTest {
 	
 	@Before
 	public void setUp() {
-		s0 = new Humanplayer("Lieke", Color.RED);
-		s1 = new Humanplayer("Amber", Color.YEL);
+		s0 = new Humanplayer("Lieke");
+		s1 = new Humanplayer("Amber");
 		battle = new Game(s0, s1);
 		bor = new Board();
 	}
@@ -36,23 +36,23 @@ public class GameTest {
 		Board one = new Board();
 		one.reset();
 		Field place = new Field(0,0,0,Color.RED);
-		assertTrue(battle.validMove(place, one));
+		assertTrue(one.validMove(place, battle));
 		one.setField(place);
 		Field place1 = new Field(0,1,0,Color.RED);
-		assertTrue(battle.validMove(place1, one));
+		assertTrue(one.validMove(place1, battle));
 		one.setField(place1);
 		Field place2 = new Field(0,2,0,Color.RED);
-		assertTrue(battle.validMove(place2, one));
+		assertTrue(one.validMove(place2, battle));
 		one.setField(place2);
 		Field place3 = new Field(0,3,0,Color.RED);
-		assertTrue(battle.validMove(place3, one));
+		assertTrue(one.validMove(place3, battle));
 		one.setField(place3);
 		Field place5 = new Field(0,1,0,Color.YEL);
-		assertFalse(battle.validMove(place5, one));
+		assertFalse(one.validMove(place5, battle));
 		Field place6 = new Field(1,3,1,Color.YEL);
-		assertFalse(battle.validMove(place6, one));
+		assertFalse(one.validMove(place6, battle));
 		Field place7 = new Field(5,5,5,Color.YEL);
-		assertFalse(battle.validMove(place7, one));
+		assertFalse(one.validMove(place7, battle));
 	}
 	@Test
 	public void testisWinner() {
