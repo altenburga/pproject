@@ -55,6 +55,9 @@ public abstract class Player {
 		pHand = new ArrayList<Color>();
 
 	}
+	public Game getGame(){
+		return game;
+	}
 	public void makeMove(Board board) {
     	Field choice = determineMove(board);
 		if (choice != null) {

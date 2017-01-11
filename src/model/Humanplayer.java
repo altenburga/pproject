@@ -26,7 +26,7 @@ public class Humanplayer extends Player {
 			}
 		}
 		
-		if(board.validMove(choice, game)){
+		if(board.validMove(choice)){
 			valid = true;
 		}
 		if(valid = true){

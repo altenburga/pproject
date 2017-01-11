@@ -219,26 +219,28 @@ public class Board {
 		return true;
 
 	}
-	public boolean validMove(Field choice, Game one) {
+	public boolean validMove(Field choice) {
 		boolean valid = false;
 		int x = choice.getX();
 		int y = choice.getY();
 		int z = choice.getZ();
+		if(this.isEmpty(x, y, z)){
 		if (this.boardEmpty() && y == 0) {
 			valid = true;
 		}
-		if (this.isEmpty(x, y, z) && y == 0) {
+		else if (this.isEmpty(x, y, z) && y == 0) {
 			valid = true;
 		}
-		if (y >= 4) {
+		else if (y >= 4) {
 			valid = false;
 		}
-		if (this.isEmpty(x, y, z) && y != 0) {
+		else if (this.isEmpty(x, y, z) && y != 0) {
 			if (this.isEmpty(x, y - 1, z)) {
 				valid = false;
 			} else {
 				valid = true;
 			}
+		}
 		}
 
 		return valid;

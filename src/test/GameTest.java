@@ -31,29 +31,7 @@ public class GameTest {
 		fail("Not yet implemented");
 	}
 	*/
-	@Test
-	public void testValidMove() {
-		Board one = new Board();
-		one.reset();
-		Field place = new Field(0,0,0,Color.RED);
-		assertTrue(one.validMove(place, battle));
-		one.setField(place);
-		Field place1 = new Field(0,1,0,Color.RED);
-		assertTrue(one.validMove(place1, battle));
-		one.setField(place1);
-		Field place2 = new Field(0,2,0,Color.RED);
-		assertTrue(one.validMove(place2, battle));
-		one.setField(place2);
-		Field place3 = new Field(0,3,0,Color.RED);
-		assertTrue(one.validMove(place3, battle));
-		one.setField(place3);
-		Field place5 = new Field(0,1,0,Color.YEL);
-		assertFalse(one.validMove(place5, battle));
-		Field place6 = new Field(1,3,1,Color.YEL);
-		assertFalse(one.validMove(place6, battle));
-		Field place7 = new Field(5,5,5,Color.YEL);
-		assertFalse(one.validMove(place7, battle));
-	}
+
 	@Test
 	public void testisWinner() {
 		 s0.setColor(Color.RED);

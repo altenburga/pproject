@@ -15,7 +15,7 @@ public class Computerplayer extends Player {
 			for (int j = 0; j < DIM; j++) {
 				for (int z = 0; z < DIM; z++) {
 					Field choice = new Field(i, j, z, this.getColor());
-					while (board.validMove(choice, game)) {
+					while (board.validMove(choice)) {
 						place = choice;
 						break;
 					}

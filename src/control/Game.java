@@ -82,13 +82,15 @@ public class Game {
 
 	private boolean readBoolean(String prompt, String yes, String no) {
 		String answer;
-		do {
-			System.out.print(prompt);
-			try (Scanner in = new Scanner(System.in)) {
-				answer = in.hasNextLine() ? in.nextLine() : null;
-			}
-		} while (answer == null || (!answer.equals(yes) && !answer.equals(no)));
-		return answer.equals(yes);
+		boolean conti = false;
+		System.out.print(prompt);
+		Scanner in = new Scanner(System.in);
+		answer = in.nextLine();
+//		answer = in.toString();
+		if (answer.equals("y")||answer.equals("yes")) {
+			conti = true;
+		}
+		return conti;
 	}
 
 	public void play(Board board) {
