@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import control.Game;
+import exceptions.TileNotExistingException;
 
 public abstract class Player {
 	private String name;
