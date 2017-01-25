@@ -113,11 +113,15 @@ public class Game {
 
 	private void printResult() {
 		if (this.hasWinner(board)) {
-			Player winner = this.isWinner(board, players[0].getColor()) ? players[0] : players[1];
+			Player winner = this.winner(board);
 			System.out.println("Speler " + winner.getName() + " (" + winner.getColor().toString() + ") has won!");
 		} else {
 			System.out.println("Draw. There is no winner!");
 		}
+	}
+	
+	public Player winner(Board b){
+		return this.isWinner(b, players[0].getColor()) ? players[0] : players[1];
 	}
 
 	public void update() {

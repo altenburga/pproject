@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import client.Humanplayer;
 import control.Game;
 import model.Board;
 import model.Color;
 import model.Field;
-import model.Humanplayer;
 import model.Player;
 
 public class PlayerTest {

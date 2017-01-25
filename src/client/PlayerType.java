@@ -1,5 +1,3 @@
 package client;
 
-public class PlayerType {
-
-}
+public enum PlayerType {HUMAN, NAIVE, SMART}

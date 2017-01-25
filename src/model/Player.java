@@ -11,6 +11,7 @@ public abstract class Player {
 	public List<Color> pHand;
 	public Color color;
 	protected Game game;
+	private Field last;
 	
 	public Player(String name) {
 		this.name = name;
@@ -67,10 +68,14 @@ public abstract class Player {
 			int z = choice.getZ();
 			Color one = choice.getColor();
 			board.setField(x, y, z, one);
+			last = (choice);
 		} 
 		else {
 			System.out.print("Move is empty, try again." + System.lineSeparator());
 		}
+	}
+	public Field getLastMove(){
+		return last;
 	}
 	
 

@@ -7,9 +7,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import control.Game;
 import model.Board;
+import model.Field;
 import model.Player;
 import protocol.Protocol;
 
@@ -23,6 +27,9 @@ public class ClientHandler extends Thread {
 	private Game current;
 	private Board board;
 	private Player one;
+	private ClientPlayer cur;
+	private Lock makeMoveLock = new ReentrantLock();
+	private Condition MoveMade = makeMoveLock.newCondition();
 
 	/**
 	 * Constructs a ClientHandler object Initialises both Data streams. @
@@ -81,6 +88,39 @@ public class ClientHandler extends Thread {
 		}
 	}
 
+	public synchronized void notifyMove(String name, Field move) {
+
+		try {
+			out.write(Protocol.SERVER_NOTIFYMOVE);
+			out.write(" ");
+			out.write(name);
+			out.write(" ");
+			out.write(move.getX());
+			out.write(" ");
+			out.write(move.getY());
+			out.write(" ");
+			out.write(move.getZ());
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void notifyLost(ClientHandler one) {
+		try {
+			out.write(Protocol.SERVER_CONNECTIONLOST);
+			out.write("");
+			out.write(one.getClientName());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	private void handleJoinGameReq(Scanner s) {
 		server.requestGame(this);
 	}
@@ -89,14 +129,13 @@ public class ClientHandler extends Thread {
 		boolean set = false;
 		int x = s.nextInt();
 		int z = s.nextInt();
-		for(int y = 0; y< 4; y++){
-			if(board.getField(x, y, z) == null && set == false){
+		for (int y = 0; y < 4; y++) {
+			if (board.getField(x, y, z) == null && set == false) {
 				board.setField(x, y, z, one.getColor());
 				set = true;
 			}
 		}
-		
-		
+
 	}
 
 	private void handleJoinReq(Scanner s) {
@@ -104,20 +143,45 @@ public class ClientHandler extends Thread {
 		if (server.getClientName(name) == null) {
 			clientName = name;
 			try {
-				out.write(Protocol.SERVER_ACCEPTREQUEST + " "+ getClientName()+ " " + "0 0 0 0");
+				out.write(Protocol.SERVER_ACCEPTREQUEST + " " + getClientName() + " " + "0 0 0 0");
 				out.newLine();
 				out.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-			} 
-		}
-		else {
+			}
+		} else {
 			System.out.println("This " + name + " already exists. Choose another one.");
 		}
-		
-		
-		
+	}
 
+	public synchronized void moveRequest() {
+		try {
+			out.write(Protocol.SERVER_MOVEREQUEST);
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void MoveMade() {
+		makeMoveLock.lock();
+		try {
+			MoveMade.signalAll();
+		} finally {
+			makeMoveLock.unlock();
+		}
+	}
+
+	public void WaitForMove() throws InterruptedException {
+		makeMoveLock.lock();
+		try {
+			MoveMade.await();
+		} finally {
+			makeMoveLock.unlock();
+		}
 	}
 
 	private String getClientName() {
@@ -135,18 +199,15 @@ public class ClientHandler extends Thread {
 		String msg;
 		try {
 			while ((msg = in.readLine()) != null) {
-				System.out.println(String.format("[%s (%s)]: %s", 
-								getClientName(), 
-								sock.getInetAddress(),
-								msg));
+				System.out.println(String.format("[%s (%s)]: %s", getClientName(), sock.getInetAddress(), msg));
 				messageHandler(msg);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally { 
+		} finally {
 			shutdown();
 		}
- 	}
+	}
 
 	/**
 	 * This method can be used to send a message over the socket connection to
@@ -154,39 +215,105 @@ public class ClientHandler extends Thread {
 	 * the socket connection has been lost and shutdown() is called.
 	 */
 	public void sendMessage(Scanner scan) {
-        try {
-        	String s = scan.nextLine(); 
-        	out.write(s);
-        	out.newLine();
-        	out.flush();
-        } catch (IOException e) {
-        	System.out.println("Shut down client");
-        	shutdown();
-        }
+		try {
+			String s = scan.nextLine();
+			out.write(s);
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			System.out.println("Shut down client");
+			shutdown();
+		}
 	}
 
 	public void sendMessage(String msg) {
-        try {
-        	out.write(msg);
-        	out.newLine();
-        	out.flush();
-        } catch (IOException e) {
-        	System.out.println("Shut down client");
-        	shutdown();
-        }
+		try {
+			out.write(msg);
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			System.out.println("Shut down client");
+			shutdown();
+		}
 	}
-	
-	public Game getCurrentgame(){
+
+	public Game getCurrentgame() {
 		return current;
 	}
+
 	/**
 	 * This ClientHandler signs off from the Server and subsequently sends a
 	 * last broadcast to the Server to inform that the Client is no longer
 	 * participating in the chat.
 	 */
-	private void shutdown() {
+	public void shutdown() {
 		server.removeHandler(this);
 		server.broadcast("[" + clientName + " has left]");
+	}
+
+	public void setCurrentGame(Game battle) {
+		current = battle;
+
+	}
+
+	public void setCurrentPlayer(ClientPlayer current) {
+		cur = current;
+
+	}
+
+	public Player getCurrentPlayer() {
+		return cur;
+	}
+
+	public synchronized void acceptJoinRequest() {
+		try {
+			out.write(Protocol.SERVER_ACCEPTREQUEST + " " + getClientName() + " " + "0 0 0 0");
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public synchronized void startGame(ClientHandler one, ClientHandler two) {
+		try {
+			out.write(Protocol.SERVER_STARTGAME);
+			out.write(" ");
+			out.write(one.getClientName());
+			out.write(" ");
+			out.write(two.getClientName());
+
+			out.newLine();
+			out.flush();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public synchronized void notifyGameOver(Player one, Player two) {
+		try {
+			out.write(Protocol.SERVER_GAMEOVER + " " + current.winner(board).getName());
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	public synchronized void invalidCommand(String msg){
+		try {
+			out.write(Protocol.SERVER_INVALIDCOMMAND);
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
