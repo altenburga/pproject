@@ -47,10 +47,6 @@ public class BoardTest {
 		assertEquals(Color.EMP, board.getField(1, 1, 1));
 	}
 
-	@Test
-	public void testSetup() {
-		assertEquals(Color.EMP, board.getField(0, 0, 0));
-	}
 
 	@Test
 	public void testReset() {
