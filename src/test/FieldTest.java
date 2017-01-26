@@ -18,13 +18,13 @@ public class FieldTest {
 
 	@Before
 	public void setUp() throws Exception {
-		place = new Field(1,1,1,choice);
-        please = new Field(1,1,1,choice);
+		place = new Field(1, 1, 1, choice);
+        please = new Field(1, 1, 1, choice);
 	}
 
 	@Test
 	public void test() {
-		assertTrue(place.getColor()== choice);
+		assertTrue(place.getColor() == choice);
 		place.setColor(press);
 		assertTrue(place.getColor() == press);
 		assertTrue(place.getX() == 1);

@@ -21,8 +21,9 @@ public interface Protocol {
 	/**
 	 * PAY ATTENTION: 
 	 * 
-	 * All arguments must be separated by a space. This also implies that the individual arguments are not allowed to contain spaces. The only exception to 
-	 * this rule will be the chat function.
+	 * All arguments must be separated by a space. 
+	 * This also implies that the individual arguments are not allowed to contain spaces. 
+	 * The only exception to this rule will be the chat function.
 	 */
 	
 	// --------------- Pre game ---------------
@@ -53,7 +54,8 @@ public interface Protocol {
 	String CLIENT_JOINREQUEST = "joinrequest";
 	
 	/**
-	 * Used for accepting the client request to join the server  and notify the client of the features that the server supports
+	 * Used for accepting the client request to join the server 
+	 * and notify the client of the features that the server supports
 	 * 
 	 * Arguments:
 	 * - name = Name of the client

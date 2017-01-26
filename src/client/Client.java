@@ -115,7 +115,7 @@ public class Client extends Thread {
 
 	}
 
-	/** returns the client name */
+	/** returns the client name. */
 	public String getClientName() {
 		return clientName;
 	}

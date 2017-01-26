@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import control.Game;
 import model.Board;
 import model.Color;
 import model.Field;
@@ -62,7 +61,7 @@ public class BoardTest {
 	@Test
 	public void testDeepCopy() {
 		board.setField(0, 0, 0, Color.RED);
-		Board deepCopyBoard = board.Deepcopy();
+		Board deepCopyBoard = board.deepCopy();
 		deepCopyBoard.setField(0, 0, 0, Color.YEL);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
 		assertEquals(Color.YEL, deepCopyBoard.getField(0, 0, 0));
@@ -76,25 +75,6 @@ public class BoardTest {
 		board.setField(1, 1, 1, Color.RED);
 		assertFalse(board.isEmpty(1, 1, 1));
 	}
-
-	/*
-	 * @Test public void testIsFull() { for (int i = 0; i < 8; i++) {
-	 * board.setField(i, Mark.XX); } assertFalse(board.isFull());
-	 * 
-	 * board.setField(8, Mark.XX); assertTrue(board.isFull()); }
-	 */
-
-	/*
-	 * @Test public void testGameOverFullBoard() {
-	 * 
-	 * board.setField(0, 0, Mark.XX); board.setField(0, 1, Mark.XX);
-	 * board.setField(0, 2, Mark.OO); board.setField(1, 0, Mark.OO);
-	 * board.setField(1, 1, Mark.OO); board.setField(1, 2, Mark.XX);
-	 * board.setField(2, 0, Mark.XX); board.setField(2, 1, Mark.OO);
-	 * 
-	 * assertFalse(board.gameOver()); board.setField(2, 2, Mark.XX);
-	 * assertTrue(board.gameOver()); }
-	 */
 
 	@Test
 	public void testHasRowX() {
@@ -238,24 +218,24 @@ public class BoardTest {
 	public void testValidMove() {
 		Board one = new Board();
 		one.reset();
-		Field place = new Field(0,0,0,Color.RED);
+		Field place = new Field(0, 0, 0, Color.RED);
 		assertTrue(one.validMove(place));
 		one.setField(place);
-		Field place1 = new Field(0,1,0,Color.RED);
+		Field place1 = new Field(0, 1, 0, Color.RED);
 		assertTrue(one.validMove(place1));
 		one.setField(place1);
 		assertFalse(one.validMove(place));
-		Field place2 = new Field(0,2,0,Color.RED);
+		Field place2 = new Field(0, 2, 0, Color.RED);
 		assertTrue(one.validMove(place2));
 		one.setField(place2);
-		Field place3 = new Field(0,3,0,Color.RED);
+		Field place3 = new Field(0, 3, 0, Color.RED);
 		assertTrue(one.validMove(place3));
 		one.setField(place3);
-		Field place5 = new Field(0,1,0,Color.YEL);
+		Field place5 = new Field(0, 1, 0, Color.YEL);
 		assertFalse(one.validMove(place5));
-		Field place6 = new Field(1,3,1,Color.YEL);
+		Field place6 = new Field(1, 3, 1, Color.YEL);
 		assertFalse(one.validMove(place6));
-		Field place7 = new Field(5,5,5,Color.YEL);
+		Field place7 = new Field(5, 5, 5, Color.YEL);
 		assertFalse(one.validMove(place7));
 	}
 }
