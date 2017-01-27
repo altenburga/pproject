@@ -1,3 +1,3 @@
-package client;
+package model;
 
 public enum PlayerType {HUMAN, NAIVE, SMART}

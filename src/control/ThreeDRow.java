@@ -1,6 +1,5 @@
 package control;
 
-import client.Computerplayer;
 import model.*;
 
 public class ThreeDRow {
