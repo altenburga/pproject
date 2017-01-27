@@ -47,7 +47,6 @@ public class BoardTest {
 		assertEquals(Color.EMP, board.getField(1, 1, 1));
 	}
 
-
 	@Test
 	public void testReset() {
 		board.reset();
@@ -58,6 +57,7 @@ public class BoardTest {
 	public void testDeepCopy() {
 		board.setField(0, 0, 0, Color.RED);
 		Board deepCopyBoard = board.deepCopy();
+		assertEquals(Color.RED, deepCopyBoard.getField(0, 0, 0));
 		deepCopyBoard.setField(0, 0, 0, Color.YEL);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
 		assertEquals(Color.YEL, deepCopyBoard.getField(0, 0, 0));
@@ -196,20 +196,6 @@ public class BoardTest {
 
 	}
 
-	@Test
-	public void testValidMoves() {
-		board.reset();
-		board.setField(0, 0, 0, Color.RED);
-		Field choice = new Field(0, 0, 1, Color.RED);
-		assertTrue(board.validMove(choice));
-		board.setField(choice);
-		Field choice1 = new Field(0, 0, 0, Color.RED);
-//		board.reset();
-		assertFalse(board.validMove(choice1));
-		Field choice2 = new Field(0, 4, 0, Color.RED);
-		assertFalse(board.validMove(choice2));
-
-	}
 	@Test
 	public void testValidMove() {
 		Board one = new Board();
