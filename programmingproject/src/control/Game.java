@@ -14,6 +14,7 @@ public class Game {
 	private int current;
 	public static final int NUMBER_OF_PLAYERS = 2;
 	public Player currentPlayer;
+	public TUIView view;
 
 	public Game(Player s0, Player s1) {
 		board = new Board();
@@ -22,7 +23,14 @@ public class Game {
 		players[1] = s1;
 		players[0].setColor(Color.RED);
 		players[1].setColor(Color.YEL);
+		view = new TUIView();
 
+	}
+	public TUIView getView(){
+		return view;
+	}
+	public void setView(TUIView nview){
+		view = nview;
 	}
 
 	public void namePlayers() {
@@ -125,7 +133,7 @@ public class Game {
 	}
 
 	public void update() {
-		System.out.println("\ncurrent game situation: \n\n" + board.toString() + "\n");
+		System.out.println("\ncurrent game situation: \n\n" + view.toString(board) + "\n");
 		System.out.println(
 				"Player: " + this.currentPlayer.getName() + "\n" + "Color: " + this.getCurrentPlayer().getColor());
 	}
