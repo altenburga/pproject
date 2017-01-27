@@ -9,10 +9,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import protocol.Protocol;
+
 
 public class Client extends Thread {
 	private static final String USAGE
-        = "usage: java week8.3D <name> <address> <port>";
+        = "usage: <address> <port>";
 
 	/** Starts a Client-application. */
 	public static void main(String[] args) {
@@ -41,14 +43,10 @@ public class Client extends Thread {
 		try {
 			Client client = new Client(args[0], host, port);
 			//client.sendMessage(args[0]);
-			client.sendMessage("joinrequest lieke 0 0 0 0");
-			client.sendMessage("gamerequest");
+			client.sendMessage(Protocol.CLIENT_JOINREQUEST + " amber 0 0 0 0");
+			client.sendMessage(Protocol.CLIENT_GAMEREQUEST);
+			System.out.println("joinreq & gamereq sent");
 			client.start();
-			
-			do {
-				String input = readString("");
-				client.sendMessage(input);
-			} while (true);
 			
 		} catch (IOException e) {
 			print("ERROR: couldn't construct a client object!");

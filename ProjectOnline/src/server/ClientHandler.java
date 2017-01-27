@@ -14,7 +14,7 @@ import model.Field;
 import model.Player;
 import protocol.Protocol;
 
-public class ClientHandler {
+public class ClientHandler extends Thread {
 	private BufferedWriter out;
 	private BufferedReader in;
 	private Server server;
@@ -31,34 +31,38 @@ public class ClientHandler {
 
 	}
 
-	public String getName() {
+	public String name(){
 		return clientName;
 	}
-    public void handled() {
-    	moveHandled = false;
-    }
-    public boolean moveHandled() {
-    	return moveHandled;
-    }
-    public void run() {
-    	while(true){
-    		String line;
+
+	public void handled() {
+		moveHandled = false;
+	}
+
+	public boolean moveHandled() {
+		return moveHandled;
+	}
+
+	public void run() {
+		while (true) {
+			String line;
 			try {
 				line = in.readLine();
 				handleInput(line);
 			} catch (IOException e) {
 				System.out.println("System is down");
 				e.printStackTrace();
-				
+
 			}
-    		
-    	}
-    }
+
+		}
+	}
 
 	public void handleInput(String input) {
 		String[] inp = input.split(" ");
 		switch (inp[0]) {
 		case Protocol.CLIENT_JOINREQUEST:
+			System.out.println("Case gehaald");
 			handleJoinReq(inp);
 			break;
 		case Protocol.CLIENT_GAMEREQUEST:
@@ -88,16 +92,13 @@ public class ClientHandler {
 
 	private void handleJoinReq(String[] inp) {
 		clientName = inp[1];
-		try {
-			out.write(Protocol.SERVER_ACCEPTREQUEST + " " + getName() + " " + inp[2] + " " + inp[3] + " " + inp[4] + " "
-					+ inp[5]);
-			out.newLine();
-			out.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (server.getThreads().contains(clientName)) {
+			sendMessage(Protocol.SERVER_DENYREQUEST + " " + clientName);
+		} else {
+			sendMessage(Protocol.SERVER_ACCEPTREQUEST + " " + inp[1] + " " + inp[2] + " " + inp[3] + " " + inp[4]
+					+ " " + inp[5]);
+			
 		}
-
 	}
 
 	private void handleJoinGameReq(String[] inp) {
@@ -112,16 +113,18 @@ public class ClientHandler {
 		for (int y = 0; y < 4; y++) {
 			if (battle.getBoard().getField(x, y, z) == Color.EMP && set == false) {
 				battle.getBoard().setField(x, y, z, one.getColor());
-				moveMade = new Field(x,y,z, one.getColor());
+				moveMade = new Field(x, y, z, one.getColor());
 				set = true;
 				moveHandled = true;
 			}
 		}
 
 	}
-	private Field lastMove(){
+
+	protected Field lastMove() {
 		return moveMade;
 	}
+
 	public void sendMessage(String message) {
 		try {
 			out.write(message);
@@ -131,13 +134,12 @@ public class ClientHandler {
 			System.out.println("Shut down client");
 			shutdown();
 		}
-	
 
-}
+	}
 
 	private void shutdown() {
 		server.deleteHandler(this);
 		server.broadcast("[" + clientName + " has left]");
 	}
-		
-	}
+
+}

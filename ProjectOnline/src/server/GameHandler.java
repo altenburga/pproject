@@ -10,25 +10,27 @@ import view.*;
 import control.*;
 
 public class GameHandler extends Thread implements Observer {
-	private Observable obs;
 	private List<ClientHandler> clientHandlers = new ArrayList<ClientHandler>();
 	private Player one;
 	private Player two;
 	private Game battle;
+	private TUIView view;
 
 	public GameHandler(List<ClientHandler> temp) {
 		clientHandlers = temp;
 		one = new Humanplayer(temp.get(0).getName(), temp.get(0));
 		two = new Humanplayer(temp.get(1).getName(), temp.get(1));
+		battle = new Game(one, two);
 	}
 
 	public void run() {
 		battle = new Game(one, two);
-		obs.addObserver(this);
+		battle.setCurrentPlayer(battle.firstPlayer());
+		;
+		battle.addObserver(this);
 		sendMessageStartGame();
 		sendMessageMoveRequest(battle.getCurrentPlayer());
-		TUIView view = new TUIView();
-
+		view = new TUIView();
 		while (!battle.gameOver(battle.getBoard())) {
 			if (battle.getCurrentPlayer().getClientHandler().moveHandled()) {
 				setMove();
@@ -46,7 +48,7 @@ public class GameHandler extends Thread implements Observer {
 
 	private void sendMessageStartGame() {
 		String message = Protocol.SERVER_STARTGAME;
-		message = message + one.getName() + " " + two.getName() ;
+		message = message + " " + one.getName() + " " + two.getName();
 		clientHandlers.get(0).sendMessage(message);
 		clientHandlers.get(1).sendMessage(message);
 	}
@@ -58,7 +60,17 @@ public class GameHandler extends Thread implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+		if (arg1 == "move") {
+			clientHandlers.get(0)
+					.sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + clientHandlers.get(0).getName() + " "
+							+ clientHandlers.get(0).lastMove().getX() + " " + clientHandlers.get(0).lastMove().getY()
+							+ " " + clientHandlers.get(0).lastMove().getZ());
+			clientHandlers.get(1)
+					.sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + clientHandlers.get(1).getName() + " "
+							+ clientHandlers.get(1).lastMove().getX() + " " + clientHandlers.get(1).lastMove().getY()
+							+ " " + clientHandlers.get(1).lastMove().getZ());
+			view.toString(battle.getBoard());
+		}
 
 	}
 

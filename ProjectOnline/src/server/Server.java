@@ -56,23 +56,28 @@ public class Server {
 		return port;
 	}
 
+	public List<ClientHandler> getThreads() {
+		return threads;
+	}
+
 	public void run() {
 		System.out.print("Server started");
-		Socket s;
+		while(true){
 		try {
-			s = serverSock.accept();
+			Socket s = serverSock.accept();
 			System.out.println("Client connected!");
 			addHandler(new ClientHandler(this, s));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			}
+		 catch (IOException e) {
 			System.out.println("Server is terminated!");
-			System.exit(10);
+			System.exit(0);
+		}
 		}
 	}
 
 	private void addHandler(ClientHandler clientHandler) {
 		threads.add(clientHandler);
-		clientHandler.run();
+		clientHandler.start();
 
 	}
 
@@ -84,29 +89,27 @@ public class Server {
 	}
 
 	public void addToPlayList(ClientHandler clientHandler) {
-		if (threads.contains(clientHandler.getName())) {
-			System.out.print(Protocol.SERVER_DENYREQUEST + " " + clientHandler.getName());
-		} else {
-			for (int i = 0; i < 30; i++) {
-				if (toPlay.get(i) == null) {
-					List<ClientHandler> temp = new ArrayList<ClientHandler>();
-					temp.add(clientHandler);
-					toPlay.put(i, temp);
-					System.out.println(Protocol.SERVER_WAITFORCLIENT);
-					break;
-				}
-				if (toPlay.get(i).size() == 1) {
-					System.out.println("addToPlayList met al 1 client");
-					List<ClientHandler> temp = toPlay.get(i);
-					temp.add(clientHandler);
-					toPlay.put(i, temp);
-					prepareGame(temp);
-					break;
+		for (int i = 0; i < 30; i++) {
+			if (toPlay.get(i) != null && toPlay.get(i).size() == 1) {
+				System.out.println("addToPlayList met al 1 client");
+				List<ClientHandler> temp = toPlay.get(i);
+				temp.add(clientHandler);
+				toPlay.put(i, temp);
+				prepareGame(temp);
+				break;
 
-				}
+			}
+			else if(toPlay.get(i) == null) {
+				List<ClientHandler> temp = new ArrayList<ClientHandler>();
+				temp.add(clientHandler);
+				toPlay.put(i, temp);
+				System.out.println(Protocol.SERVER_WAITFORCLIENT);
+				break;
 			}
 
+
 		}
+
 	}
 
 	private void prepareGame(List<ClientHandler> temp) {
