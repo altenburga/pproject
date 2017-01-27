@@ -53,15 +53,6 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void testShowHand() {
-		one.initHand();
-		assertTrue(one.showHand() == 32);
-		Field move = new Field(0, 0, 0, one.getColor());
-		// one.makeMove(board, move);
-		// assertTrue(one.showHand() == 31);
-	}
-
-	@Test
 	public void testInitHand() {
 		one.initHand();
 		assertTrue(one.showHand() == 32);
@@ -78,13 +69,12 @@ public class PlayerTest {
 	@Test
 	public void testMakeMove() {
 		one.setColor(Color.RED);
-		Field move = new Field(0, 0, 0, Color.RED);
 		assertTrue(board.getField(0, 0, 0) == Color.EMP);
+		System.out.println("Use column 0 and row 0!");
 		one.makeMove(board);
 		assertTrue(board.getField(0, 0, 0) == Color.RED);
-		Field move1 = new Field(1, 0, 0, null);
+		System.out.println(" Use column 1 and row 0!");
 		one.makeMove(board);
-		assertFalse(board.getField(1, 0, 0) == Color.RED);
-
+		assertTrue(board.getField(1, 0, 0) == Color.RED);
 	}
 }
