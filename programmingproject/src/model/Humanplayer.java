@@ -3,7 +3,6 @@ package model;
 import java.util.Scanner;
 
 public class Humanplayer extends Player {
-// x = column, y = height, z = row;
 	private Scanner in;
 
 	public Humanplayer(String name) {
@@ -19,39 +18,22 @@ public class Humanplayer extends Player {
 		int row = askRow();
 		Color tile = this.getColor();
 		Field place = new Field(0, 0, 0, null);
-		for(int j = 0; j < 4; j++){
-			if(board.isEmpty(col, j, row)){
+		for (int j = 0; j < 4; j++) {
+			if (board.isEmpty(col, j, row)) {
 				place = new Field(col, j, row, tile);
 				break;
 			}
 		}
-		
-		if(board.validMove(choice)){
+
+		if (board.validMove(choice)) {
 			valid = true;
 		}
-		if(valid = true){
+		if (valid) {
 			choice = place;
 		}
 		return choice;
 
 	}
-	
-		
-		
-		
-		
-		
-		
-/*		if (game.validMove(place, board)) {
-			choice = place;
-		} else {
-			System.out.println("This is not a valid move. Try again.");
-		}
-		return choice;
-		
-
-
-	} */
 
 	public int askColumn() {
 		System.out.println("In which column would you like to place your tile?");
@@ -65,13 +47,5 @@ public class Humanplayer extends Player {
 		return row;
 
 	}
-
-/*	public int askHeight() {
-		System.out.println("At what height would you like to place your tile?");
-		int height = in.nextInt();
-		return height;
-
-	}
-	*/
 
 }

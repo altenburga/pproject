@@ -25,7 +25,7 @@ public class ThreeDRow {
 		boolean human = false;
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Would you like to be a HumanPlayer? (yes or no)");
-		if(scanner.nextLine().equals("yes")){
+		if (scanner.nextLine().equals("yes")) {
 			human = true;
 		}
 		if (human) {
