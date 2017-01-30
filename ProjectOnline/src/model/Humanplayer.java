@@ -56,13 +56,13 @@ public class Humanplayer extends Player {
 	} */
 
 	public int askColumn() {
-		System.out.println("In which column would you like to place your tile?");
+		this.getClientHandler().sendMessage("In which column would you like to place your tile?");
 		int col = in.nextInt();
 		return col;
 	}
 
 	public int askRow() {
-		System.out.println("In which row would you like to place your tile?");
+		this.getClientHandler().sendMessage("In which row would you like to place your tile?");
 		int row = in.nextInt();
 		return row;
 

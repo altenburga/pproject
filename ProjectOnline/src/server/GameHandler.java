@@ -18,8 +18,8 @@ public class GameHandler extends Thread implements Observer {
 
 	public GameHandler(List<ClientHandler> temp) {
 		clientHandlers = temp;
-		one = new Humanplayer(temp.get(0).getName(), temp.get(0));
-		two = new Humanplayer(temp.get(1).getName(), temp.get(1));
+		one = new Computerplayer(temp.get(0).getName(), temp.get(0));
+		two = new Computerplayer(temp.get(1).getName(), temp.get(1));
 		battle = new Game(one, two);
 	}
 
@@ -32,7 +32,7 @@ public class GameHandler extends Thread implements Observer {
 		sendMessageMoveRequest(battle.getCurrentPlayer());
 		view = new TUIView();
 		while (!battle.gameOver(battle.getBoard())) {
-			if (battle.getCurrentPlayer().getClientHandler().moveHandled()) {
+			if (!battle.getCurrentPlayer().getClientHandler().moveHandled()) {
 				setMove();
 				battle.getCurrentPlayer().getClientHandler().handled();
 				battle.changePlayer();
@@ -61,14 +61,8 @@ public class GameHandler extends Thread implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 == "move") {
-			clientHandlers.get(0)
-					.sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + clientHandlers.get(0).getName() + " "
-							+ clientHandlers.get(0).lastMove().getX() + " " + clientHandlers.get(0).lastMove().getY()
-							+ " " + clientHandlers.get(0).lastMove().getZ());
-			clientHandlers.get(1)
-					.sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + clientHandlers.get(1).getName() + " "
-							+ clientHandlers.get(1).lastMove().getX() + " " + clientHandlers.get(1).lastMove().getY()
-							+ " " + clientHandlers.get(1).lastMove().getZ());
+			battle.getCurrentPlayer().getClientHandler().sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + battle.getCurrentPlayer().getClientHandler() + " "
+							+ battle.getCurrentPlayer().getClientHandler().lastMove().getX() + " " + " " + battle.getCurrentPlayer().getClientHandler().lastMove().getZ());
 			view.toString(battle.getBoard());
 		}
 

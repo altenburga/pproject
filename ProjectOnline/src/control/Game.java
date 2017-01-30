@@ -18,6 +18,8 @@ public class Game extends Observable{
 	public static final int NUMBER_OF_PLAYERS = 2;
 	public Player currentPlayer;
 	public TUIView view;
+	private Scanner in;
+	private static final int DIM = 4;
 
 	public Game(Player s0, Player s1) {
 		board = new Board();
@@ -53,6 +55,21 @@ public class Game extends Observable{
 	}
 	public void setView(TUIView nview){
 		view = nview;
+	}
+	public String getHint(Humanplayer p){
+		Field place = new Field(0, 0, 0, null);
+		for (int i = 0; i < DIM ; i++) {
+			for (int j = 0; j < DIM; j++) {
+				for (int z = 0; z < DIM ; z++) {
+					Field choice = new Field(i, j, z, p.getColor());
+					while (board.validMove(choice)) {
+						place = choice;
+						break;
+					}
+				}
+			}
+		}
+		return "Place your tile on x = " + place.getX() + "and z = " + place.getZ();
 	}
 
 	public Player firstPlayer() {
@@ -107,12 +124,18 @@ public class Game extends Observable{
 		}
 		return conti;
 	}
+	
 
 	public void play(Board board) {
 		this.firstPlayer();
 		update();
 		while (!this.gameOver(board)) {
-			currentPlayer.makeMove(board);
+			if(currentPlayer instanceof Humanplayer){
+				if(readBoolean("Would you like a hint?", "yes", "no")){
+					getHint((Humanplayer) currentPlayer);
+				}
+			}
+			setMove(board);
 			this.changePlayer();
 			update();
 
@@ -159,11 +182,14 @@ public class Game extends Observable{
 			currentPlayer.makeMove(board);
 		}
 		if(currentPlayer instanceof Humanplayer){
-			currentPlayer.makeMove(board);
+			Field move = currentPlayer.getClientHandler().lastMove();
+			board.setField(move.getX(), move.getY(), move.getZ(), currentPlayer.getColor() );
 		}
+		System.out.println(this.getCurrentPlayer().getClientHandler().lastMove());
 		
 		setChanged();
 		notifyObservers("move");
 	}
+
 
 }

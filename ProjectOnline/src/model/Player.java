@@ -67,7 +67,7 @@ public abstract class Player {
 		return game;
 	}
 	public void makeMove(Board board) {
-    	Field choice = determineMove(board);
+		Field choice = determineMove(board);
 		if (choice != null) {
 			int x = choice.getX();
 			int y = choice.getY();

@@ -112,7 +112,6 @@ public class ClientHandler extends Thread {
 		int z = Integer.valueOf(inp[2]);
 		for (int y = 0; y < 4; y++) {
 			if (battle.getBoard().getField(x, y, z) == Color.EMP && set == false) {
-				battle.getBoard().setField(x, y, z, one.getColor());
 				moveMade = new Field(x, y, z, one.getColor());
 				set = true;
 				moveHandled = true;
@@ -121,7 +120,7 @@ public class ClientHandler extends Thread {
 
 	}
 
-	protected Field lastMove() {
+	public Field lastMove() {
 		return moveMade;
 	}
 
