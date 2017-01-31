@@ -31,19 +31,29 @@ public class ClientHandler extends Thread {
 		this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
 
 	}
-
+	/**
+	 * Returns the name of the client.
+	 * @return name of the client
+	 */
 	public String name(){
 		return clientName;
 	}
-
+	/**
+	 * Sets the moveHandled on false
+	 */
 	public void handled() {
 		moveHandled = false;
 	}
-
+	/**
+	 * Returns whether the move has been handled or not.
+	 * @return moveHandled
+	 */
 	public boolean moveHandled() {
 		return moveHandled;
 	}
-
+	/**
+	 * Keeps reading the input from the client and then gives it to handleInput
+	 */
 	public void run() {
 		while (true) {
 			String line;
@@ -58,7 +68,11 @@ public class ClientHandler extends Thread {
 
 		}
 	}
-
+	/**
+	 * Reads the given input and decides what method to use to handle the given input
+	 * @param input
+	 * @throws OutOfBoundsException
+	 */
 	public void handleInput(String input) throws OutOfBoundsException {
 		String[] inp = input.split(" ");
 		System.out.println(input);
@@ -90,7 +104,12 @@ public class ClientHandler extends Thread {
 		}
 
 	}
-
+	/**
+	 * Reads the input and checks if there is a client with that name
+	 * If that is the case, then denies the client
+	 * Else accept the client and sends to the client that he has joined
+	 * @param inp
+	 */
 	private void handleJoinReq(String[] inp) {
 		clientName = inp[1];
 		if (server.getThreads().contains(clientName)) {
@@ -101,12 +120,20 @@ public class ClientHandler extends Thread {
 			
 		}
 	}
-
+	
+	/**
+	 * Adds this clientHandler to the playList of the sever so it can play a game
+	 * @param inp
+	 */
 	private void handleJoinGameReq(String[] inp) {
 		server.addToPlayList(this);
 
 	}
-
+	/**
+	 * Handles the move the player wants to set.
+	 * @param inp
+	 * @throws OutOfBoundsException
+	 */
 	private void handleSetMove(String[] inp) throws OutOfBoundsException {
 		boolean set = false;
 		int x = Integer.valueOf(inp[1]);
@@ -120,7 +147,10 @@ public class ClientHandler extends Thread {
 		}
 
 	}
-
+	/**
+	 * returns the last move
+	 * @return last move
+	 */
 	public Field lastMove() {
 		return moveMade;
 	}
@@ -141,6 +171,9 @@ public class ClientHandler extends Thread {
 		}
 
 	}
+	/**
+	 * Deletes the ClientHandler from the server and lets everyone know
+	 */
 
 	private void shutdown() {
 		server.deleteHandler(this);

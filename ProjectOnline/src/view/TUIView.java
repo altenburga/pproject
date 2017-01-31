@@ -3,12 +3,21 @@ package view;
 import exceptions.OutOfBoundsException;
 import model.Board;
 import model.Color;
-
+/**
+ * A class that builds the board to string for the user to see.
+ * @author Lieke en Amber
+ *
+ */
 public class TUIView {
 	private Color[][][] fields;
 	
 	
-
+/**
+ * Builds the board to a string for the user to view.
+ * @param board
+ * @return a visible representation of the board in a string
+ * @throws OutOfBoundsException
+ */
 	public String toString(Board board) throws OutOfBoundsException {
 		String s = "" + System.lineSeparator();
 		s = s + ("       Z = 0" + "                 Z = 1                 Z = 2                 Z = 3") + System.lineSeparator();

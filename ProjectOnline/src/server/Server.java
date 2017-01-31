@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import protocol.Protocol;
-
+/**
+ * Our server class that handles the lobby, creates clienthandlers and manages the clienthandlers and their games.
+ * @author Lieke
+ *
+ */
 public class Server {
 	private static final String USAGE = "usage: " + Server.class.getName() + " <port>";
 	private ServerSocket serverSock;
@@ -40,7 +44,11 @@ public class Server {
 
 	}
 
-	/** Constructs a new Server object */
+
+	/**
+	 *  Constructs a new Server object
+	 * @param portArg
+	 */
 	public Server(int portArg) {
 		try {
 			serverSock = new ServerSocket(portArg);
@@ -51,15 +59,24 @@ public class Server {
 		}
 
 	}
-
+	/**
+	 * returns the port of the server
+	 * @return this.port
+	 */
 	public int getPort() {
 		return port;
 	}
-
+	/**
+	 * Returns a list of clientHandlers that are currently in the lobby.
+	 * @return list of ClientHandlers named threads
+	 */
 	public List<ClientHandler> getThreads() {
 		return threads;
 	}
-
+/**
+ * Keeps track of all the clientPlayers 
+ * that have connected and creates a clientHandler for each client that connects
+ */
 	public void run() {
 		System.out.print("Server started");
 		while(true){
@@ -74,20 +91,31 @@ public class Server {
 		}
 		}
 	}
-
+	/**
+	 * add a clientHandler to the list threads aka our lobby and starts it.
+	 * @param clientHandler
+	 */
 	private void addHandler(ClientHandler clientHandler) {
 		threads.add(clientHandler);
 		clientHandler.start();
 
 	}
-
+	/**
+	 * Deletes the handler out of the list aka our lobby.
+	 * @param clientHandler
+	 */
 	public void deleteHandler(ClientHandler clientHandler) {
 		if (threads.contains(clientHandler)) {
 			threads.remove(clientHandler);
 		}
 
 	}
-
+	/**
+	 * Adds a given ClientHandler to a Playlist
+	 * It searches for a value that is a list of 1 and add the clientHandler and prepares a game
+	 * If there is no such list, it adds the ClientHandler to a key index with no value of a list yet. 
+	 * @param clientHandler
+	 */
 	public void addToPlayList(ClientHandler clientHandler) {
 		for (int i = 0; i < 30; i++) {
 			if (toPlay.get(i) != null && toPlay.get(i).size() == 1) {
@@ -110,19 +138,32 @@ public class Server {
 		}
 
 	}
+	/**
+	 * Gives the parameter list temp to a gameHandler and lets the gameHandler start.
+	 * @param temp
+	 */
 
 	private void prepareGame(List<ClientHandler> temp) {
 		GameHandler one = new GameHandler(temp);
 		one.start();
 
 	}
+	/**
+	 * Sends a message to every clientHandler in the lobby.
+	 * @param msg
+	 */
 
 	public synchronized void broadcast(String msg) {
 		for (ClientHandler c : threads) {
 			c.sendMessage(msg);
 		}
 	}
-
+	
+	/**
+	 * Finds the ClientHandler according to the name that is given as parameter
+	 * @param name
+	 * @return the ClientHandler with the name of the parameter
+	 */
 	public ClientHandler getClientByName(String name) {
 		ClientHandler result = null;
 		for (ClientHandler c : threads) {
