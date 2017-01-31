@@ -91,7 +91,6 @@ public class Server {
 	public void addToPlayList(ClientHandler clientHandler) {
 		for (int i = 0; i < 30; i++) {
 			if (toPlay.get(i) != null && toPlay.get(i).size() == 1) {
-				System.out.println("addToPlayList met al 1 client");
 				List<ClientHandler> temp = toPlay.get(i);
 				temp.add(clientHandler);
 				toPlay.put(i, temp);

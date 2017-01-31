@@ -8,17 +8,17 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import model.*;
+import protocol.Protocol;
 import view.*;
 
 public class Game extends Observable{
 
 	private Player[] players;
 	private Board board;
-	private int current;
 	public static final int NUMBER_OF_PLAYERS = 2;
 	public Player currentPlayer;
 	public TUIView view;
-	private Scanner in;
+	private int current;
 	private static final int DIM = 4;
 
 	public Game(Player s0, Player s1) {
@@ -32,8 +32,6 @@ public class Game extends Observable{
 
 	}
 
-	public void namePlayers() {
-	}
 
 	public Player getCurrentPlayer() {
 		return currentPlayer;
@@ -181,11 +179,13 @@ public class Game extends Observable{
 		if (currentPlayer instanceof Computerplayer) {
 			currentPlayer.makeMove(board);
 		}
-		if(currentPlayer instanceof Humanplayer){
-			Field move = currentPlayer.getClientHandler().lastMove();
-			board.setField(move.getX(), move.getY(), move.getZ(), currentPlayer.getColor() );
+		
+		else if(currentPlayer instanceof Humanplayer){
+			Field move = currentPlayer.determineMove(getBoard());
+			board.setField(move.getX(), move.getY(), move.getZ(), currentPlayer.getColor());
+			currentPlayer.getClientHandler().handleInput(Protocol.CLIENT_SETMOVE + " " + move.getX() + " " + move.getZ());
+			
 		}
-		System.out.println(this.getCurrentPlayer().getClientHandler().lastMove());
 		
 		setChanged();
 		notifyObservers("move");

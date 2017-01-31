@@ -7,6 +7,7 @@ import server.ClientHandler;
 public class Humanplayer extends Player {
 // x = column, y = height, z = row;
 	private Scanner in;
+private static final int DIM = 4;
 
 	public Humanplayer(String name, ClientHandler client) {
 		super(name, client);
@@ -18,10 +19,11 @@ public class Humanplayer extends Player {
 		boolean valid = false;
 		Field choice = new Field(0, 0, 0, color);
 		int col = askColumn();
+		System.out.println(col);
 		int row = askRow();
 		Color tile = this.getColor();
 		Field place = new Field(0, 0, 0, null);
-		for(int j = 0; j < 4; j++){
+		for(int j = 0; j < DIM ; j++){
 			if(board.isEmpty(col, j, row)){
 				place = new Field(col, j, row, tile);
 				break;

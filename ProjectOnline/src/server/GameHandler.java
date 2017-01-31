@@ -18,15 +18,14 @@ public class GameHandler extends Thread implements Observer {
 
 	public GameHandler(List<ClientHandler> temp) {
 		clientHandlers = temp;
-		one = new Computerplayer(temp.get(0).getName(), temp.get(0));
-		two = new Computerplayer(temp.get(1).getName(), temp.get(1));
+		one = new Humanplayer(temp.get(0).name(), temp.get(0));
+		two = new Humanplayer(temp.get(1).name(), temp.get(1));
 		battle = new Game(one, two);
 	}
 
 	public void run() {
 		battle = new Game(one, two);
-		battle.setCurrentPlayer(battle.firstPlayer());
-		;
+		battle.setCurrentPlayer(battle.firstPlayer());;
 		battle.addObserver(this);
 		sendMessageStartGame();
 		sendMessageMoveRequest(battle.getCurrentPlayer());
@@ -38,6 +37,12 @@ public class GameHandler extends Thread implements Observer {
 				battle.changePlayer();
 				sendMessageMoveRequest(battle.getCurrentPlayer());
 			}
+		}
+		if(battle.gameOver(battle.getBoard())){
+			String over = Protocol.SERVER_GAMEOVER + " " + battle.winner(battle.getBoard()).getName();
+			clientHandlers.get(0).sendMessage(over);
+			clientHandlers.get(1).sendMessage(over);
+			
 		}
 	}
 
@@ -61,9 +66,12 @@ public class GameHandler extends Thread implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 == "move") {
-			battle.getCurrentPlayer().getClientHandler().sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + battle.getCurrentPlayer().getClientHandler() + " "
-							+ battle.getCurrentPlayer().getClientHandler().lastMove().getX() + " " + " " + battle.getCurrentPlayer().getClientHandler().lastMove().getZ());
-			view.toString(battle.getBoard());
+			battle.getCurrentPlayer().getClientHandler().sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + battle.getCurrentPlayer().getClientHandler().getName() + " "
+							+ battle.getCurrentPlayer().getLastMove().getX() + " " + " " + battle.getCurrentPlayer().getLastMove().getZ());
+			clientHandlers.get(0).sendMessage(view.toString(battle.getBoard()));
+			clientHandlers.get(1).sendMessage(view.toString(battle.getBoard()));
+			clientHandlers.get(0).sendMessage("| Current player: " + battle.getCurrentPlayer().getName() + "  |  Color of the Player:  " + battle.getCurrentPlayer().getColor() + "| ");
+			clientHandlers.get(1).sendMessage("| Current player: " + battle.getCurrentPlayer().getName() + "  |  Color of the Player:  " + battle.getCurrentPlayer().getColor() + "| ");
 		}
 
 	}

@@ -60,9 +60,9 @@ public class ClientHandler extends Thread {
 
 	public void handleInput(String input) {
 		String[] inp = input.split(" ");
+		System.out.println(input);
 		switch (inp[0]) {
 		case Protocol.CLIENT_JOINREQUEST:
-			System.out.println("Case gehaald");
 			handleJoinReq(inp);
 			break;
 		case Protocol.CLIENT_GAMEREQUEST:
@@ -123,7 +123,12 @@ public class ClientHandler extends Thread {
 	public Field lastMove() {
 		return moveMade;
 	}
-
+    /**
+     * This method can be used to send a message over the socket
+     * connection to the Client. If the writing of a message fails,
+     * the method concludes that the socket connection has been lost
+     * and shutdown() is called.
+     */
 	public void sendMessage(String message) {
 		try {
 			out.write(message);
