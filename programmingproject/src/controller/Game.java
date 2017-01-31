@@ -37,6 +37,7 @@ public class Game {
 	 * returns the currently used view.
 	 * @return view
 	 */
+	/*pure */
 	public TUIView getView() {
 		return view;
 	}
@@ -44,20 +45,19 @@ public class Game {
 	 * sets the current view to the given param.
 	 * @param nview
 	 */
+	//@ requires nview != null;
+	//@ ensures getView() == nview;
 	public void setView(TUIView nview) {
 		view = nview;
 	}
-	
-	public void setCurrentPlayer(Player one) {
-		currentPlayer = one;
-	}
-	
 	/**
 	 * A method that gives you a hint for a field you can place your stone. 
 	 * @param p
 	 * @return a string with the coordinates where you can put your stone. 
 	 */
-	public String getHint(Humanplayer p) throws OutOfBoundsException {
+	/*pure */
+	//@ requires p != null;
+	public void getHint(Humanplayer p) throws OutOfBoundsException {
 		Field place = new Field(0, 0, 0, null);
 		for (int i = 0; i < DIM; i++) {
 			for (int j = 0; j < DIM; j++) {
@@ -69,10 +69,9 @@ public class Game {
 					}
 				}
 			}
+			String h = "Place your tile on x = " + place.getX() + " and z = " + place.getZ();
+			System.out.println(h);
 		}
-		String h = "Place your tile on x = " + place.getX() + " and z = " + place.getZ();
-		System.out.println(h);
-		return h;
 	}
 
 
@@ -80,13 +79,23 @@ public class Game {
 	 * returns the currentPlayer.
 	 * @return currentPlayer
 	 */
+	/*pure */
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
+	/*@ requires one != null;
+	 *@ ensures this.getCurrentPlayer() == one;
+	 */
+	public void setCurrentPlayer(Player one) {
+		currentPlayer = one;
+	}
+	
 	/**
 	 * changes the currentPlayer to the next player. 
 	 * Used when a turn is over.
 	 */
+	//@requires currentPlayer != null;
+	//@ensures getCurrentPlayer() == players[1] || getCurrentPlayer() == players[0];
 	public void changePlayer() {
 		if (currentPlayer == players[0]) {
 			currentPlayer = players[1];
@@ -98,7 +107,7 @@ public class Game {
 	/**
 	 * determines the firstPlayer randomly to start the game.
 	 */
-
+	//@ensures getCurrentPlayer() == players[1] || getCurrentPlayer() == players[0];
 	public void firstPlayer() {
 		int temp = (Math.random() <= 0.5) ? 1 : 2;
 		if (temp == 1) {
@@ -119,6 +128,10 @@ public class Game {
 	 * 		bor.getCol(c) or bor.getZRow(c)
 				or bor.getXRow(c).
 	 */
+	/*pure */
+	//@ requires bor != null && c == Color.YEL || Color.RED;
+	//@ ensures bor.getXdiag(c) == true || bor.getDiagDiag(c) == true|| bor.getZdiag(c) == true || 
+	// bor.getCol(c) == true || bor.getZRow(c) == true || bor.getXRow(c) == true;
 	public Boolean isWinner(Board bor, Color c) {
 		return bor.getXdiag(c) || bor.getDiagDiag(c) || bor.getZdiag(c) || 
 				bor.getCol(c) || bor.getZRow(c) || bor.getXRow(c);
@@ -129,6 +142,9 @@ public class Game {
 	 * @param b
 	 * @return true if isWinner(b, Color.RED) == true or isWinner(b, Color.YEL) == true.
 	 */
+	/*pure */
+	//@ requires b != null;
+	//@ ensures isWinner(b, Color.RED) == true || isWinner(b, Color.YEL) == true;
 	public boolean hasWinner(Board b) {
 		return isWinner(b, Color.RED) || isWinner(b, Color.YEL);
 
@@ -136,6 +152,8 @@ public class Game {
 	/**
 	 * Resets the entire game by resetting the board.
 	 */
+	//@ ensures (\forall int x = 0; x < DIM; int y = 0; y < DIM; int z = 0; z < DIM;
+ 	//		      fields[x][y][z].equals(Color.EMP));
 	public void reset() {
 		board.reset();
 	}
@@ -147,6 +165,8 @@ public class Game {
 	 * @throws OutOfBoundsException 
 	 * @throws WrongInputException 
 	 */
+	//@ ensures this.play();
+	//@ ensures this.reset();
 	public void start() throws OutOfBoundsException, FieldNotExistingException, WrongInputException {
 		System.out.println("Welcome to this game of Connect Four, 3D");
 		if (readBoolean("Would you like to know the rules of the game?", "y", "n") == true) {
@@ -172,6 +192,7 @@ public class Game {
 	 * @return true if answer equals "y" or "yes".
 	 * @throws WrongInputException 
 	 */
+	/*pure */
 	public boolean readBoolean(String prompt, String yes, String no) throws WrongInputException {
 		String answer;
 		boolean conti = false;
@@ -198,6 +219,7 @@ public class Game {
 	 * @throws OutOfBoundsException 
 	 * @throws WrongInputException 
 	 */
+	//@ requires board != null;
 	public void play(Board board) throws OutOfBoundsException, FieldNotExistingException, WrongInputException {
 		this.firstPlayer();
 		update();
@@ -220,6 +242,9 @@ public class Game {
 	 * @param b
 	 * @return true if the board is full or there is a winner. 
 	 */
+	/*pure */
+	//@ requires b != null;
+	//@ ensures 
 	public boolean gameOver(Board b) {
 		return board.isFull(b) || hasWinner(b);
 
@@ -227,6 +252,7 @@ public class Game {
 	/**
 	 * If there is a winner, this method prints the winner with their name and color.
 	 */
+	
 	private void printResult() {
 		if (this.hasWinner(board)) {
 			Player winner = this.winner(board);
@@ -241,7 +267,9 @@ public class Game {
 	 * @param b
 	 * @return the player that has won.
 	 */
-	
+	/*pure */
+	//@ requires b != null;
+	//@ ensures \result == players[0] || \result == players[1];
 	public Player winner(Board b) {
 		return this.isWinner(b, players[0].getColor()) ? players[0] : players[1];
 	}
