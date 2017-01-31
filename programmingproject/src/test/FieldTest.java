@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import exceptions.FieldTakenException;
 import model.Color;
 import model.Field;
 
@@ -21,7 +22,7 @@ public class FieldTest {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws FieldTakenException {
 		assertTrue(place.getColor() == choice);
 		place.setColor(press);
 		assertTrue(place.getColor() == press);

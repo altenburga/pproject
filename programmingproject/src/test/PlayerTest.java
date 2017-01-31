@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import control.Game;
+import controller.Game;
+import exceptions.FieldNotExistingException;
+import exceptions.OutOfBoundsException;
 import model.Board;
 import model.Color;
 import model.Field;
@@ -52,22 +54,9 @@ public class PlayerTest {
 		assertEquals(two.getName(), "Anna");
 	}
 
-	@Test
-	public void testInitHand() {
-		one.initHand();
-		assertTrue(one.showHand() == 32);
-	}
 
 	@Test
-	public void testClearHand() {
-		one.initHand();
-		assertTrue(one.showHand() == 32);
-		one.clearHand();
-		assertTrue(one.showHand() == 0);
-	}
-
-	@Test
-	public void testMakeMove() {
+	public void testMakeMove() throws OutOfBoundsException, FieldNotExistingException {
 		one.setColor(Color.RED);
 		assertTrue(board.getField(0, 0, 0) == Color.EMP);
 		System.out.println("Use column 0 and row 0!");

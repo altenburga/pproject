@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Observable;
+
+import exceptions.OutOfBoundsException;
+
 /**
  * Represents a board in the Connect Four 3D game.
  * 
@@ -7,7 +11,7 @@ package model;
  *
  */
 
-public class Board {
+public class Board extends Observable{
 	private static final int DIM = 4;
 	private Color[][][] fields;
 	
@@ -65,11 +69,11 @@ public class Board {
 	 * 			the z-coordinate of the field
 	 * @return the color on the field
 	 */
-	public Color getField(int x, int y, int z) {
+	public Color getField(int x, int y, int z) throws OutOfBoundsException {
 		if (isField(x, y, z)) {
 			return fields[x][y][z];
 		} else {
-			return null;
+			throw new OutOfBoundsException(x,y,z);
 		}
 
 	}
@@ -88,7 +92,10 @@ public class Board {
 	 * 			the color to be placed
 	 */
 	public void setField(int x, int y, int z, Color choice) {
-		fields[x][y][z] = choice;
+		if(this.isField(x, y, z)){
+			fields[x][y][z] = choice;
+		}
+		
 
 	}
 
@@ -125,8 +132,9 @@ public class Board {
 	 * @param z
 	 * 			the z-coordinate of the field
 	 * @return true if the field is empty
+	 * @throws OutOfBoundsException 
 	 */
-	public boolean isEmpty(int x, int y, int z) {
+	public boolean isEmpty(int x, int y, int z) throws OutOfBoundsException {
 		return getField(x, y, z) == Color.EMP;
 
 	}
@@ -309,8 +317,9 @@ public class Board {
 	 * @param choice
 	 * 			the field of interest
 	 * @return true if choice refers to a valid field
+	 * @throws OutOfBoundsException 
 	 */
-	public boolean validMove(Field choice) {
+	public boolean validMove(Field choice) throws OutOfBoundsException {
 		boolean valid = false;
 		int x = choice.getX();
 		int y = choice.getY();

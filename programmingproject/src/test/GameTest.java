@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import control.Game;
+import controller.Game;
 import model.Board;
 import model.Color;
 import model.Field;

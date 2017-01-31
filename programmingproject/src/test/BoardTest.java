@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import exceptions.OutOfBoundsException;
 import model.Board;
 import model.Color;
 import model.Field;
@@ -28,14 +29,14 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testSetAndGetField() {
+	public void testSetAndGetField() throws OutOfBoundsException {
 		board.setField(0, 0, 0, Color.RED);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
 		assertEquals(Color.EMP, board.getField(1, 1, 1));
 	}
 
 	@Test
-	public void testSetField() {
+	public void testSetField() throws OutOfBoundsException {
 		board.setField(0, 0, 0, Color.RED);
 		assertEquals(Color.RED, board.getField(0, 0, 0));
 		assertEquals(Color.EMP, board.getField(1, 0, 0));
@@ -48,13 +49,13 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testReset() {
+	public void testReset() throws OutOfBoundsException {
 		board.reset();
 		assertEquals(Color.EMP, board.getField(0, 0, 0));
 	}
 
 	@Test
-	public void testDeepCopy() {
+	public void testDeepCopy() throws OutOfBoundsException {
 		board.setField(0, 0, 0, Color.RED);
 		Board deepCopyBoard = board.deepCopy();
 		assertEquals(Color.RED, deepCopyBoard.getField(0, 0, 0));
@@ -64,7 +65,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testIsEmptyField() {
+	public void testIsEmptyField() throws OutOfBoundsException {
 		board.setField(0, 0, 0, Color.RED);
 		assertFalse(board.isEmpty(0, 0, 0));
 		assertTrue(board.isEmpty(1, 1, 1));
@@ -197,7 +198,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testValidMove() {
+	public void testValidMove() throws OutOfBoundsException {
 		Board one = new Board();
 		one.reset();
 		Field place = new Field(0, 0, 0, Color.RED);
