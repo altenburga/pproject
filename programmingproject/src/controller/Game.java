@@ -47,6 +47,11 @@ public class Game {
 	public void setView(TUIView nview) {
 		view = nview;
 	}
+	
+	public void setCurrentPlayer(Player one) {
+		currentPlayer = one;
+	}
+	
 	/**
 	 * A method that gives you a hint for a field you can place your stone. 
 	 * @param p
@@ -65,7 +70,9 @@ public class Game {
 				}
 			}
 		}
-		return "Place your tile on x = " + place.getX() + "and z = " + place.getZ();
+		String h = "Place your tile on x = " + place.getX() + " and z = " + place.getZ();
+		System.out.println(h);
+		return h;
 	}
 
 
