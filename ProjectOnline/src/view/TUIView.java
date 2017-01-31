@@ -1,5 +1,6 @@
 package view;
 
+import exceptions.OutOfBoundsException;
 import model.Board;
 import model.Color;
 
@@ -8,7 +9,7 @@ public class TUIView {
 	
 	
 
-	public String toString(Board board) {
+	public String toString(Board board) throws OutOfBoundsException {
 		String s = "" + System.lineSeparator();
 		s = s + ("       Z = 0" + "                 Z = 1                 Z = 2                 Z = 3") + System.lineSeparator();
 		s = s + ("  " + board.getField(0,3,0) + "|" + board.getField(1,3,0) + "|" + board.getField(2,3,0) + "|" + System.lineSeparator()

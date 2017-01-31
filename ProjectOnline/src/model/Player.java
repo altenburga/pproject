@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import control.Game;
-import exceptions.TileNotExistingException;
+import exceptions.OutOfBoundsException;
 import server.ClientHandler;
-
+/**
+ * An abstract class that represents a Player with a name and clientHandler
+ * @author Lieke en Amber
+ *
+ */
 public abstract class Player {
 	protected String name;
 	public List<Color> pHand;
@@ -20,53 +24,64 @@ public abstract class Player {
 		this.client = c;
 		pHand = new ArrayList<Color>();
 	}
+	/**
+	 * Returns the name of the player
+	 * @return name of the player
+	 */
 	public String getName() {
 		return name;
 	}
+	/**
+	 * returns the color of the player
+	 * @return the color of the player
+	 */
 	public Color getColor(){
 		return color;
 	}
-	
+	/**
+	 * Sets the color of the player to the given parameter col
+	 * @param col
+	 */
 	public void setColor(Color col){
 		color = col;
 	
 	}
+	/**
+	 * Sets the name of a player to the given parameter choice
+	 * @param choice
+	 */
 	public void setName(String choice) {
 		name = choice;
 	}
-	public Integer showHand() {
-		Integer result = 0;
-		for (Color color : pHand) {
-			result = result + 1 ;
-		}
-		return result;
-	}
+	/**
+	 * Returns the clientHandler of the Player
+	 * @return the clienthandler of the Player
+	 */
 	public ClientHandler getClientHandler(){
 		return client;
 	}
-	
-	public void reset() {
-		initHand();
-	}
-	public void initHand() {
-		Color e = color;
-		for (int i = 0; i < 32; i++) {
-			pHand.add(e);
-		}	
-		}
-
 		
-	public abstract Field determineMove(Board board);
+	/**
+	 * Lets the player decide on which field it wants to place a tile.
+	 * @param board
+	 * @return a field to place on the board
+	 * @throws OutOfBoundsException
+	 */
+	public abstract Field determineMove(Board board) throws OutOfBoundsException;
 	
-	
-	public void clearHand() {
-		pHand = new ArrayList<Color>();
-
-	}
+	/**
+	 * returns the game of the player
+	 * @return the game of the player
+	 */
 	public Game getGame(){
 		return game;
 	}
-	public void makeMove(Board board) {
+	/**
+	 * Places the field the player wants on the board.
+	 * @param board
+	 * @throws OutOfBoundsException
+	 */
+	public void makeMove(Board board) throws OutOfBoundsException {
 		Field choice = determineMove(board);
 		if (choice != null) {
 			int x = choice.getX();
@@ -80,6 +95,10 @@ public abstract class Player {
 			System.out.print("Move is empty, try again." + System.lineSeparator());
 		}
 	}
+	/**
+	 * returns the last move this player made.
+	 * @return the last move this player made.
+	 */
 	public Field getLastMove(){
 		return last;
 	}

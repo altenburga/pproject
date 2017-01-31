@@ -8,6 +8,7 @@ import model.*;
 import protocol.Protocol;
 import view.*;
 import control.*;
+import exceptions.OutOfBoundsException;
 
 public class GameHandler extends Thread implements Observer {
 	private List<ClientHandler> clientHandlers = new ArrayList<ClientHandler>();
@@ -18,8 +19,8 @@ public class GameHandler extends Thread implements Observer {
 
 	public GameHandler(List<ClientHandler> temp) {
 		clientHandlers = temp;
-		one = new Humanplayer(temp.get(0).name(), temp.get(0));
-		two = new Humanplayer(temp.get(1).name(), temp.get(1));
+		one = new Computerplayer(temp.get(0).name(), temp.get(0));
+		two = new Computerplayer(temp.get(1).name(), temp.get(1));
 		battle = new Game(one, two);
 	}
 
@@ -32,7 +33,11 @@ public class GameHandler extends Thread implements Observer {
 		view = new TUIView();
 		while (!battle.gameOver(battle.getBoard())) {
 			if (!battle.getCurrentPlayer().getClientHandler().moveHandled()) {
-				setMove();
+				try {
+					setMove();
+				} catch (OutOfBoundsException e) {
+					e.printStackTrace();
+				}
 				battle.getCurrentPlayer().getClientHandler().handled();
 				battle.changePlayer();
 				sendMessageMoveRequest(battle.getCurrentPlayer());
@@ -58,7 +63,7 @@ public class GameHandler extends Thread implements Observer {
 		clientHandlers.get(1).sendMessage(message);
 	}
 
-	private void setMove() {
+	private void setMove() throws OutOfBoundsException {
 		battle.setMove(battle.getBoard());
 
 	}
@@ -68,8 +73,12 @@ public class GameHandler extends Thread implements Observer {
 		if (arg1 == "move") {
 			battle.getCurrentPlayer().getClientHandler().sendMessage(Protocol.SERVER_NOTIFYMOVE + " " + battle.getCurrentPlayer().getClientHandler().getName() + " "
 							+ battle.getCurrentPlayer().getLastMove().getX() + " " + " " + battle.getCurrentPlayer().getLastMove().getZ());
-			clientHandlers.get(0).sendMessage(view.toString(battle.getBoard()));
-			clientHandlers.get(1).sendMessage(view.toString(battle.getBoard()));
+			try {
+				clientHandlers.get(0).sendMessage(view.toString(battle.getBoard()));
+				clientHandlers.get(1).sendMessage(view.toString(battle.getBoard()));
+			} catch (OutOfBoundsException e) {
+				e.printStackTrace();
+			}
 			clientHandlers.get(0).sendMessage("| Current player: " + battle.getCurrentPlayer().getName() + "  |  Color of the Player:  " + battle.getCurrentPlayer().getColor() + "| ");
 			clientHandlers.get(1).sendMessage("| Current player: " + battle.getCurrentPlayer().getName() + "  |  Color of the Player:  " + battle.getCurrentPlayer().getColor() + "| ");
 		}

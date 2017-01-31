@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import control.Game;
+import exceptions.OutOfBoundsException;
 import model.Color;
 import model.Field;
 import model.Player;
@@ -49,7 +50,7 @@ public class ClientHandler extends Thread {
 			try {
 				line = in.readLine();
 				handleInput(line);
-			} catch (IOException e) {
+			} catch (IOException | OutOfBoundsException e) {
 				System.out.println("System is down");
 				e.printStackTrace();
 
@@ -58,7 +59,7 @@ public class ClientHandler extends Thread {
 		}
 	}
 
-	public void handleInput(String input) {
+	public void handleInput(String input) throws OutOfBoundsException {
 		String[] inp = input.split(" ");
 		System.out.println(input);
 		switch (inp[0]) {
@@ -106,7 +107,7 @@ public class ClientHandler extends Thread {
 
 	}
 
-	private void handleSetMove(String[] inp) {
+	private void handleSetMove(String[] inp) throws OutOfBoundsException {
 		boolean set = false;
 		int x = Integer.valueOf(inp[1]);
 		int z = Integer.valueOf(inp[2]);

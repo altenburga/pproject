@@ -1,32 +1,45 @@
 package model;
 
+import exceptions.FieldTakenException;
+
+/**
+ * A class that represents a field which can be taken(RED or YEL) or can be empty
+ * @author Lieke en Amber
+ *
+ */
 public class Field {
 	private int x;
 	private int y;
 	private int z;
 	private Color color;
-	
-	public Field(int x, int y, int z, Color one){
+
+	public Field(int x, int y, int z, Color one) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.color = one;
 	}
-	
-	public Color getColor(){
-		System.out.print(color);
+	/**
+	 * Asks for the color of a field.
+	 * @return the color of the field
+	 */
+	public Color getColor() {
 		return color;
-		
+
 	}
-	public void setColor(Color choice){
-		if(color == Color.EMP){
+	/**
+	 * Sets the color of a field to a given color.
+	 * @param choice
+	 * @throws FieldTakenException 
+	 */
+	public void setColor(Color choice) throws FieldTakenException {
+		if (color == Color.EMP) {
 			color = choice;
-		}
-		else{
-			System.out.println("Dat vakje is al vol");
+		} else {
+			throw new FieldTakenException();
 		}
 	}
-	
+
 	/**
 	 * gives the y coordinate where the player wants to place his tile during
 	 * his move.
@@ -58,5 +71,5 @@ public class Field {
 		return z;
 	}
 
-
 }
+

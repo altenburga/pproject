@@ -1,19 +1,12 @@
 package model;
 
+/** 
+ * An enum for the colors that exist in the game: Red, Yellow and Empty.
+ * @author Lieke en Amber
+ *
+ */
 public enum Color{
 	
 	RED, YEL, EMP;
-	
-	/**
-	 * gives the color in integer form that was given to the tile.
-	 * 
-	 * @return color in integer form
-	 */
-	
-//	public getColor() {
-//		return color;
-//	}
-//	public void changeColor(Integer choice){
-//		color = choice;
-	}
+}
 
