@@ -31,26 +31,34 @@ public class ClientHandler extends Thread {
 		this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
 
 	}
+
 	/**
 	 * Returns the name of the client.
+	 * 
 	 * @return name of the client
 	 */
-	public String name(){
+	/* pure */
+	public String name() {
 		return clientName;
 	}
+
 	/**
 	 * Sets the moveHandled on false
 	 */
 	public void handled() {
 		moveHandled = false;
 	}
+
 	/**
 	 * Returns whether the move has been handled or not.
+	 * 
 	 * @return moveHandled
 	 */
+	/* pure */
 	public boolean moveHandled() {
 		return moveHandled;
 	}
+
 	/**
 	 * Keeps reading the input from the client and then gives it to handleInput
 	 */
@@ -68,8 +76,11 @@ public class ClientHandler extends Thread {
 
 		}
 	}
+
 	/**
-	 * Reads the given input and decides what method to use to handle the given input
+	 * Reads the given input and decides what method to use to handle the given
+	 * input
+	 * 
 	 * @param input
 	 * @throws OutOfBoundsException
 	 */
@@ -104,10 +115,12 @@ public class ClientHandler extends Thread {
 		}
 
 	}
+
 	/**
-	 * Reads the input and checks if there is a client with that name
-	 * If that is the case, then denies the client
-	 * Else accept the client and sends to the client that he has joined
+	 * Reads the input and checks if there is a client with that name If that is
+	 * the case, then denies the client Else accept the client and sends to the
+	 * client that he has joined
+	 * 
 	 * @param inp
 	 */
 	private void handleJoinReq(String[] inp) {
@@ -115,22 +128,26 @@ public class ClientHandler extends Thread {
 		if (server.getThreads().contains(clientName)) {
 			sendMessage(Protocol.SERVER_DENYREQUEST + " " + clientName);
 		} else {
-			sendMessage(Protocol.SERVER_ACCEPTREQUEST + " " + inp[1] + " " + inp[2] + " " + inp[3] + " " + inp[4]
-					+ " " + inp[5]);
-			
+			sendMessage(Protocol.SERVER_ACCEPTREQUEST + " " + inp[1] + " " + inp[2] + " " + inp[3] + " " + inp[4] + " "
+					+ inp[5]);
+
 		}
 	}
-	
+
 	/**
-	 * Adds this clientHandler to the playList of the sever so it can play a game
+	 * Adds this clientHandler to the playList of the sever so it can play a
+	 * game
+	 * 
 	 * @param inp
 	 */
 	private void handleJoinGameReq(String[] inp) {
 		server.addToPlayList(this);
 
 	}
+
 	/**
 	 * Handles the move the player wants to set.
+	 * 
 	 * @param inp
 	 * @throws OutOfBoundsException
 	 */
@@ -139,27 +156,37 @@ public class ClientHandler extends Thread {
 		int x = Integer.valueOf(inp[1]);
 		int z = Integer.valueOf(inp[2]);
 		for (int y = 0; y < 4; y++) {
-			if (battle.getBoard().getField(x, y, z) == Color.EMP && set == false) {
-				moveMade = new Field(x, y, z, one.getColor());
-				set = true;
-				moveHandled = true;
-			}
-		}
+			for (GameHandler g : server.getGameHandler().keySet()) {
+				if (g.getClientHandlers().contains(this)) {
+					if (g.getGame().getBoard().getField(x, y, z) == Color.EMP && set == false) {
+						moveMade = new Field(x, y, z, g.getGame().getCurrentPlayer().getColor());
+						set = true;
+						moveHandled = true;
 
+					}
+
+				}
+			}
+
+		}
 	}
+
 	/**
 	 * returns the last move
+	 * 
 	 * @return last move
 	 */
+	/* pure */
+	// @ ensures \result == moveMade;
 	public Field lastMove() {
 		return moveMade;
 	}
-    /**
-     * This method can be used to send a message over the socket
-     * connection to the Client. If the writing of a message fails,
-     * the method concludes that the socket connection has been lost
-     * and shutdown() is called.
-     */
+
+	/**
+	 * This method can be used to send a message over the socket connection to
+	 * the Client. If the writing of a message fails, the method concludes that
+	 * the socket connection has been lost and shutdown() is called.
+	 */
 	public void sendMessage(String message) {
 		try {
 			out.write(message);
@@ -171,10 +198,12 @@ public class ClientHandler extends Thread {
 		}
 
 	}
+
 	/**
 	 * Deletes the ClientHandler from the server and lets everyone know
 	 */
-
+	// @requires server.getThreads().contains(this);
+	// @ensures server.getThreads.contains(this) == false;
 	private void shutdown() {
 		server.deleteHandler(this);
 		server.broadcast("[" + clientName + " has left]");

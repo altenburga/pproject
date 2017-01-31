@@ -12,8 +12,8 @@ import server.ClientHandler;
  */
 public class Humanplayer extends Player {
 	// x = column, y = height, z = row;
-	private Scanner in;
 	private static final int DIM = 4;
+	private Scanner in;
 
 	public Humanplayer(String name, ClientHandler client) {
 		super(name, client);
@@ -27,9 +27,9 @@ public class Humanplayer extends Player {
 	public Field determineMove(Board board) throws OutOfBoundsException {
 		boolean valid = false;
 		Field choice = new Field(0, 0, 0, color);
-		int col = askColumn();
+		int col = askQuestion("In what column would you like to place your tile?");
 		System.out.println(col);
-		int row = askRow();
+		int row = askQuestion("In what row would you like to place your tile?");
 		Color tile = this.getColor();
 		Field place = new Field(0, 0, 0, null);
 		for (int j = 0; j < DIM; j++) {
@@ -52,20 +52,17 @@ public class Humanplayer extends Player {
  * Asks a client in what column they want to place their tile.
  * @return the column the user gives.
  */
-	public int askColumn() {
-		this.getClientHandler().sendMessage("In which column would you like to place your tile?");
-		int col = in.nextInt();
-		return col;
-	}
+
 /**
  * Asks the client in what row they want to place their tile.
  * @return the row the user gives.
  */
-	public int askRow() {
-		this.getClientHandler().sendMessage("In which row would you like to place your tile?");
-		int row = in.nextInt();
-		return row;
-
+	public int askQuestion(String question) {
+		int answer;
+		boolean conti = false;
+		System.out.print(question);
+		answer = in.nextInt();
+		return answer;
 	}
 
 }

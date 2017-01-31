@@ -20,7 +20,9 @@ public class Server {
 	private ArrayList<ClientHandler> threads;
 	private int port;
 	private Map<Integer, List<ClientHandler>> toPlay = new HashMap<Integer, List<ClientHandler>>();
-
+	private List <ClientHandler> inGame;
+	private HashMap<GameHandler, List<ClientHandler>> gameHandlers = new HashMap<GameHandler, List<ClientHandler>>();
+	
 	public static void main(String[] args) throws IOException {
 
 		if (args.length != 1) {
@@ -110,6 +112,9 @@ public class Server {
 		}
 
 	}
+	public List<ClientHandler> getInGame(){
+		return inGame;
+	}
 	/**
 	 * Adds a given ClientHandler to a Playlist
 	 * It searches for a value that is a list of 1 and add the clientHandler and prepares a game
@@ -145,8 +150,13 @@ public class Server {
 
 	private void prepareGame(List<ClientHandler> temp) {
 		GameHandler one = new GameHandler(temp);
+		gameHandlers.put(one, temp);
 		one.start();
 
+	}
+	
+	public Map<GameHandler, List<ClientHandler>> getGameHandler(){
+		return gameHandlers;
 	}
 	/**
 	 * Sends a message to every clientHandler in the lobby.

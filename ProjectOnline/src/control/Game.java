@@ -190,12 +190,13 @@ public class Game extends Observable{
 	public void setMove(Board board) throws OutOfBoundsException {
 		currentPlayer = getCurrentPlayer();
 		if (currentPlayer instanceof Computerplayer) {
-			currentPlayer.makeMove(board);
+			Field move =currentPlayer.determineMove(board);
+			currentPlayer.makeMove(board, move);
 		}
 		
 		else if(currentPlayer instanceof Humanplayer){
-			Field move = currentPlayer.determineMove(getBoard());
-			board.setField(move.getX(), move.getY(), move.getZ(), currentPlayer.getColor());
+			Field move =currentPlayer.determineMove(board);
+			currentPlayer.makeMove(board, move);
 			currentPlayer.getClientHandler().handleInput(Protocol.CLIENT_SETMOVE + " " + move.getX() + " " + move.getZ());
 			
 		}

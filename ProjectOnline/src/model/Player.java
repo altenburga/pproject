@@ -81,8 +81,7 @@ public abstract class Player {
 	 * @param board
 	 * @throws OutOfBoundsException
 	 */
-	public void makeMove(Board board) throws OutOfBoundsException {
-		Field choice = determineMove(board);
+	public void makeMove(Board board, Field choice) throws OutOfBoundsException {
 		if (choice != null) {
 			int x = choice.getX();
 			int y = choice.getY();

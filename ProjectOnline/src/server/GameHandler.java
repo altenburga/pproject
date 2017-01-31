@@ -19,8 +19,8 @@ public class GameHandler extends Thread implements Observer {
 
 	public GameHandler(List<ClientHandler> temp) {
 		clientHandlers = temp;
-		one = new Computerplayer(temp.get(0).name(), temp.get(0));
-		two = new Computerplayer(temp.get(1).name(), temp.get(1));
+		one = new Humanplayer(temp.get(0).name(), temp.get(0));
+		two = new Humanplayer(temp.get(1).name(), temp.get(1));
 		battle = new Game(one, two);
 	}
 
@@ -36,7 +36,7 @@ public class GameHandler extends Thread implements Observer {
 				try {
 					setMove();
 				} catch (OutOfBoundsException e) {
-					e.printStackTrace();
+					battle.getCurrentPlayer().getClientHandler().sendMessage(Protocol.SERVER_DENYMOVE);
 				}
 				battle.getCurrentPlayer().getClientHandler().handled();
 				battle.changePlayer();
@@ -44,16 +44,28 @@ public class GameHandler extends Thread implements Observer {
 			}
 		}
 		if(battle.gameOver(battle.getBoard())){
+			if(battle.hasWinner(battle.getBoard())){
 			String over = Protocol.SERVER_GAMEOVER + " " + battle.winner(battle.getBoard()).getName();
 			clientHandlers.get(0).sendMessage(over);
 			clientHandlers.get(1).sendMessage(over);
-			
+			}
+			else {
+				String over = Protocol.SERVER_GAMEOVER;
+				clientHandlers.get(0).sendMessage(over);
+				clientHandlers.get(1).sendMessage(over);
+			}
 		}
+	}
+	public Game getGame(){
+		return battle;
 	}
 
 	private void sendMessageMoveRequest(Player currentPlayer) {
 		currentPlayer.getClientHandler().sendMessage(Protocol.SERVER_MOVEREQUEST);
 
+	}
+	public List <ClientHandler> getClientHandlers(){
+		return clientHandlers;
 	}
 
 	private void sendMessageStartGame() {

@@ -1,6 +1,9 @@
 package view;
 
+import java.util.Scanner;
+
 import exceptions.OutOfBoundsException;
+import exceptions.WrongInputException;
 import model.Board;
 import model.Color;
 /**
@@ -10,6 +13,8 @@ import model.Color;
  */
 public class TUIView {
 	private Color[][][] fields;
+	
+
 	
 	
 /**
