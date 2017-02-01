@@ -14,6 +14,54 @@ Hoe installeer ik het spel?
 
 Hoe start ik het spel?
 ----------------------
+ProjectOfline
+----------------------
+1. open de package project programmingproject.controller
+2. open de class ThreeDRow.java
+3. Klik op run. 
+4. Vul de gevraagde input in.
+
+ProjectOnline
+----------------------
+ComputerPlayer of HumanPlayer?
+
+1. open de package ProjectOnline.server.
+2. open de class GameHandler.
+3. Verander in de constructor de players die worden aangemaakt naar HumanPlayer of Computerplayer naar wens. 
+4. open de class client.
+5. Mocht je spelen met twee Humanplayers verander de code van de run() methode naar:
+	
+public void run() {
+		while (true) {
+			try {
+				String messageReceived = in.readLine();
+				if (messageReceived.equals(Protocol.SERVER_MOVEREQUEST)) {
+					Field choice = one.determineMove();
+					this.sendMessage(Protocol.CLIENT_SETMOVE + " " + choice.getX() + " " + choice.getZ());
+				} else if (!messageReceived.startsWith("[" + clientName + "]")) {
+					print(messageReceived);
+				}
+			} catch (IOException | OutOfBoundsException e) {
+
+			}
+		}
+	}
+
+6. Mocht je willen spelen met 2 Computerplayers, verander de code van de run() methode naar:
+
+	public void run() {
+		while (true) {
+			try {
+				String messageReceived = in.readLine();
+			 if (!messageReceived.startsWith("[" + clientName + "]")) {
+					print(messageReceived);
+				}
+			} catch (IOException e) {
+
+			}
+		}
+	}
+
 De Client en de Server lopen op dezelfde computer:
 1. Open de package projectOnline.server.
 2. Klik met de rechter muisknop op Server.java.

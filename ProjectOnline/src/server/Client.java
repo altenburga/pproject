@@ -9,12 +9,14 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import exceptions.OutOfBoundsException;
+import model.ClientPlayer;
+import model.Field;
+import model.Humanplayer;
 import protocol.Protocol;
 
-
 public class Client extends Thread {
-	private static final String USAGE
-        = "usage: <address> <port>";
+	private static final String USAGE = "usage: <address> <port>";
 
 	/** Starts a Client-application. */
 	public static void main(String[] args) {
@@ -22,7 +24,7 @@ public class Client extends Thread {
 			System.out.println(USAGE);
 			System.exit(0);
 		}
-		
+
 		InetAddress host = null;
 		int port = 0;
 
@@ -46,47 +48,49 @@ public class Client extends Thread {
 			client.sendMessage(Protocol.CLIENT_GAMEREQUEST);
 			client.sendMessage("Dit is een client");
 			client.start();
-			
+
 		} catch (IOException e) {
 			print("ERROR: couldn't construct a client object!");
 			System.exit(0);
 		}
 
 	}
-	
+
 	private String clientName;
 	private Socket sock;
 	private BufferedReader in;
 	private BufferedWriter out;
+	private ClientPlayer one = new ClientPlayer(clientName);
 
 	/**
 	 * Constructs a Client-object and tries to make a socket connection.
 	 */
-	public Client(String name, InetAddress host, int port)
-			throws IOException {
+	public Client(String name, InetAddress host, int port) throws IOException {
 		clientName = name;
-    	sock = new Socket(host, port);
-    	in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-    	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+		sock = new Socket(host, port);
+		in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
 
 	/**
-	 * Reads the messages in the socket connection. Each message will
-	 * be forwarded to the MessageUI
+	 * Reads the messages in the socket connection. Each message will be
+	 * forwarded to the MessageUI
 	 */
 	public void run() {
 		while (true) {
 			try {
 				String messageReceived = in.readLine();
-				if (!messageReceived.startsWith("[" + clientName + "]")) {
+				if (messageReceived.equals(Protocol.SERVER_MOVEREQUEST)) {
+					Field choice = one.determineMove();
+					this.sendMessage(Protocol.CLIENT_SETMOVE + " " + choice.getX() + " " + choice.getZ());
+				} else if (!messageReceived.startsWith("[" + clientName + "]")) {
 					print(messageReceived);
-				} 
-			} catch (IOException e) {
-					
+				}
+			} catch (IOException | OutOfBoundsException e) {
+
 			}
 		}
 	}
-	
 
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
@@ -107,7 +111,7 @@ public class Client extends Thread {
 			in.close();
 			sock.close();
 		} catch (IOException e) {
-			
+
 		}
 	}
 
@@ -117,20 +121,23 @@ public class Client extends Thread {
 	public String getClientName() {
 		return clientName;
 	}
+
 	/**
 	 * Prints out a message to System.out.
+	 * 
 	 * @param message
-	 * 				who needs to be printed.
+	 *            who needs to be printed.
 	 */
 	private static void print(String message) {
 		System.out.println(message);
 	}
-	
+
 	/**
 	 * Reads a String from the input console.
+	 * 
 	 * @param tekst
-	 * 				what is asked from the user.
-	 * @return  input of the Client.
+	 *            what is asked from the user.
+	 * @return input of the Client.
 	 */
 	public static String readString(String tekst) {
 		System.out.print(tekst);

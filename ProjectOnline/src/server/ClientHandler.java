@@ -69,8 +69,11 @@ public class ClientHandler extends Thread {
 		while (true) {
 			String line;
 			try {
+				while(in.ready()){
 				line = in.readLine();
 				handleInput(line);
+				}
+				
 			} catch (IOException | OutOfBoundsException e) {
 				System.out.println("System is down");
 				e.printStackTrace();
@@ -155,17 +158,19 @@ public class ClientHandler extends Thread {
 	 * @throws OutOfBoundsException
 	 */
 	private void handleSetMove(String[] inp) throws OutOfBoundsException {
-		boolean set = false;
 		int x = Integer.valueOf(inp[1]);
 		int z = Integer.valueOf(inp[2]);
 		for (int y = 0; y < 4; y++) {
 			for (GameHandler g : server.getGameHandler().keySet()) {
 				if (g.getClientHandlers().contains(this)) {
-					if (g.getGame().getBoard().getField(x, y, z) == Color.EMP && set == false) {
+					if (g.getGame().getBoard().getField(x, y, z) == Color.EMP) {
 						moveMade = new Field(x, y, z, g.getGame().getCurrentPlayer().getColor());
-						set = true;
 						moveHandled = true;
 
+					}
+					else if (g.getGame().getBoard().getField(x, y, z) != Color.EMP){
+						this.sendMessage(Protocol.SERVER_DENYMOVE);
+						
 					}
 
 				}
@@ -192,6 +197,7 @@ public class ClientHandler extends Thread {
 	 */
 	public void sendMessage(String message) {
 		try {
+			System.out.println("Debug: " + message);
 			out.write(message);
 			out.newLine();
 			out.flush();
