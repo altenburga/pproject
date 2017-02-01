@@ -26,7 +26,7 @@ public class TUIView {
 	public String toString(Board board) throws OutOfBoundsException {
 		String s = "" + System.lineSeparator();
 		s = s + ("       Z = 0" + "                 Z = 1                 Z = 2                 Z = 3") + System.lineSeparator();
-		s = s + ("  " + board.getField(0,3,0) + "|" + board.getField(1,3,0) + "|" + board.getField(2,3,0) + "|" + System.lineSeparator()
+		s = s + ("  " + board.getField(0,3,0) + "|" + board.getField(1,3,0) + "|" + board.getField(2,3,0) + "|" 
 				+ board.getField(3,3,0) + "       " + board.getField(0,3,1) + "|" + board.getField(1,3,1) + "|" + board.getField(2,3,1) + "|" 
 				+ board.getField(3,3,1) + "       " + board.getField(0,3,2) + "|" + board.getField(1,3,2) + "|" + board.getField(2,3,2) + "|"
 				+ board.getField(3,3,2) + "       " + board.getField(0,3,3) + "|" + board.getField(1,3,3) + "|" + board.getField(2,3,3) + "|"

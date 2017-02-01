@@ -194,7 +194,7 @@ public class Game extends Observable{
 			currentPlayer.makeMove(board, move);
 		}
 		
-		else if(currentPlayer instanceof Humanplayer){
+		else if(currentPlayer instanceof Humanplayer) {
 			Field move =currentPlayer.determineMove(board);
 			currentPlayer.makeMove(board, move);
 			currentPlayer.getClientHandler().handleInput(Protocol.CLIENT_SETMOVE + " " + move.getX() + " " + move.getZ());

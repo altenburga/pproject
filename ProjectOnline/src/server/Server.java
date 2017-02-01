@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.*;
 
 import protocol.Protocol;
 /**
@@ -24,7 +25,6 @@ public class Server {
 	private HashMap<GameHandler, List<ClientHandler>> gameHandlers = new HashMap<GameHandler, List<ClientHandler>>();
 	
 	public static void main(String[] args) throws IOException {
-
 		if (args.length != 1) {
 			System.out.println(USAGE);
 			return;

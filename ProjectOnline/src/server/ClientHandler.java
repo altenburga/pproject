@@ -58,6 +58,9 @@ public class ClientHandler extends Thread {
 	public boolean moveHandled() {
 		return moveHandled;
 	}
+	public Server getServer(){
+		return server;
+	}
 
 	/**
 	 * Keeps reading the input from the client and then gives it to handleInput

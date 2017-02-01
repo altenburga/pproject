@@ -42,9 +42,9 @@ public class Client extends Thread {
 
 		try {
 			Client client = new Client(args[0], host, port);
-			//client.sendMessage(args[0]);
 			client.sendMessage(Protocol.CLIENT_JOINREQUEST + " Amber 0 0 0 0");
 			client.sendMessage(Protocol.CLIENT_GAMEREQUEST);
+			client.sendMessage("Dit is een client");
 			client.start();
 			
 		} catch (IOException e) {
