@@ -3,8 +3,10 @@ package model;
 import controller.Game;
 import exceptions.FieldNotExistingException;
 import exceptions.OutOfBoundsException;
+
 /**
- * An abstract class that represents a Player with a name and clientHandler
+ * An abstract class that represents a Player with a name and clientHandler.
+ * 
  * @author Lieke en Amber
  *
  */
@@ -17,39 +19,47 @@ public abstract class Player {
 	public Player(String name) {
 		this.name = name;
 	}
+
 	/**
-	 * Returns the name of the player
+	 * Returns the name of the player.
+	 * 
 	 * @return name of the player
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
-	 * returns the color of the player
+	 * Returns the color of the player.
+	 * 
 	 * @return the color of the player
 	 */
 	public Color getColor() {
 		return color;
 	}
+
 	/**
-	 * Sets the color of the player to the given parameter col
+	 * Sets the color of the player to the given parameter col.
+	 * 
 	 * @param col
 	 */
 	public void setColor(Color col) {
 		color = col;
 
 	}
+
 	/**
-	 * Sets the name of a player to the given parameter choice
+	 * Sets the name of a player to the given parameter choice.
+	 * 
 	 * @param choice
 	 */
 	public void setName(String choice) {
 		name = choice;
 	}
 
-
 	/**
 	 * Lets the player decide on which field it wants to place a tile.
+	 * 
 	 * @param board
 	 * @return a field to place on the board
 	 * @throws OutOfBoundsException
@@ -57,14 +67,17 @@ public abstract class Player {
 	public abstract Field determineMove(Board board) throws OutOfBoundsException;
 
 	/**
-	 * returns the game of the player
+	 * Returns the game of the player.
+	 * 
 	 * @return the game of the player
 	 */
 	public Game getGame() {
 		return game;
 	}
+
 	/**
 	 * Places the field the player wants on the board.
+	 * 
 	 * @param board
 	 * @throws OutOfBoundsException
 	 */
@@ -81,8 +94,10 @@ public abstract class Player {
 			throw new FieldNotExistingException(choice);
 		}
 	}
+
 	/**
-	 * returns the last move this player made.
+	 * Returns the last move this player made.
+	 * 
 	 * @return the last move this player made.
 	 */
 	public Field getLastMove() {

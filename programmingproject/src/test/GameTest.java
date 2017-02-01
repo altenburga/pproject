@@ -19,7 +19,6 @@ public class GameTest {
 	public Player s1;
 	public Game battle;
 	public Board bor;
-	private Player[] player;
 
 	@Before
 	public void setUp() {
@@ -52,7 +51,7 @@ public class GameTest {
 	public void testHasWinner() {
 		s0.setColor(Color.RED);
 		s1.setColor(Color.YEL);
-		Field place = new Field(0, 0, 0, Color.RED);
+		// Field place = new Field(0, 0, 0, Color.RED);
 		bor.setField(0, 0, 0, Color.RED);
 		bor.setField(1, 0, 0, Color.RED);
 		bor.setField(2, 0, 0, Color.RED);
@@ -69,17 +68,13 @@ public class GameTest {
 		assertTrue(battle.hasWinner(bor) == true);
 	}
 
-
 	@Test
 	public void testGameOver() {
 		s0.setColor(Color.RED);
-		Color col = s0.getColor();
-		Board bor = new Board();
 		Field place = new Field(0, 0, 0, Color.RED);
 		Field place1 = new Field(1, 0, 0, Color.RED);
 		Field place2 = new Field(2, 0, 0, Color.RED);
 		Field place3 = new Field(3, 0, 0, Color.RED);
-		Field place4 = new Field(1, 1, 0, Color.RED);
 		bor.setField(place1);
 		bor.setField(place2);
 		bor.setField(place3);
@@ -88,24 +83,24 @@ public class GameTest {
 		assertTrue(battle.hasWinner(bor) == true);
 		assertTrue(battle.gameOver(bor));
 	}
-	
+
 	@Test
 	public void testSetGetGame() {
 		TUIView view = new TUIView();
 		battle.setView(view);
 		assertEquals(battle.getView(), view);
 	}
-	
+
 	@Test
 	public void testSetGetCurrentPlayer() {
 		Player currentPlayer = s0;
 		battle.setCurrentPlayer(currentPlayer);
 		assertEquals(battle.getCurrentPlayer(), currentPlayer);
 	}
-	
+
 	@Test
 	public void testChangePlayer() {
-		Player currentPlayer = s0;		
+		Player currentPlayer = s0;
 		battle.setCurrentPlayer(currentPlayer);
 		Player currentPlayer2 = s1;
 		battle.changePlayer();

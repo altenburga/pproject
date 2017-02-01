@@ -14,18 +14,18 @@ public class Humanplayer extends Player {
 
 	/**
 	 * Asks the user at what coordinates they want to place their tile and
-	 * calculates the Y-coordinate
+	 * calculates the Y-coordinate.
 	 * 
 	 * @return the field the user wants
 	 */
 	@Override
 	public Field determineMove(Board board) throws OutOfBoundsException {
-		boolean valid = false;
+		// boolean valid = false;
 		Field choice = new Field(0, 0, 0, color);
 		int col = askColumn();
 		int row = askRow();
-		Color tile = this.getColor();
-		Field place = new Field(0, 0, 0, null);
+		// Color tile = this.getColor();
+		// Field place = new Field(0, 0, 0, null);
 		for (int j = 0; j < 4; j++) {
 			Field tried = new Field(col, j, row, this.getColor());
 			while (board.validMove(tried)) {

@@ -10,7 +10,6 @@ import exceptions.FieldNotExistingException;
 import exceptions.OutOfBoundsException;
 import model.Board;
 import model.Color;
-import model.Field;
 import model.Humanplayer;
 import model.Player;
 

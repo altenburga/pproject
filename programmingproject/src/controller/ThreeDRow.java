@@ -11,32 +11,39 @@ import model.Humanplayer;
 import model.Player;
 
 public class ThreeDRow {
-	
+
 	private static Game battle;
 	public int index;
-/**
- * create a game of Four in a row in 3D
- * @param args
- * @throws FieldNotExistingException 
- * @throws OutOfBoundsException 
- * @throws WrongInputException 
- */
-	public static void main(String[] args) throws OutOfBoundsException, FieldNotExistingException, WrongInputException {
+	private static Scanner scanner;
+
+	/**
+	 * Create a game of Four in a row in 3D.
+	 * 
+	 * @param args
+	 * @throws FieldNotExistingException
+	 * @throws OutOfBoundsException
+	 * @throws WrongInputException
+	 */
+	public static void main(String[] args) throws OutOfBoundsException, FieldNotExistingException, 
+		WrongInputException {
 		Player p = determinePlayer(Color.RED);
 		Player q = determinePlayer(Color.YEL);
 		battle = new Game(p, q);
-		
+
 		battle.start();
 	}
-/**
- * 	Asks the user whether they want to be a computerplayer or humanplayer and what their name is. 
- * @param color
- * @return a human- or computerplayer with the given name
- */
+
+	/**
+	 * Asks the user whether they want to be a computerplayer or humanplayer and
+	 * what their name is.
+	 * 
+	 * @param color
+	 * @return a human- or computerplayer with the given name
+	 */
 	public static Player determinePlayer(Color color) {
 		Player player = null;
 		boolean human = false;
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		System.out.println("Would you like to be a HumanPlayer? (yes or no)");
 		if (scanner.nextLine().equals("yes")) {
 			human = true;

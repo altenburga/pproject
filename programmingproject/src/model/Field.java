@@ -3,7 +3,8 @@ package model;
 import exceptions.FieldTakenException;
 
 /**
- * A class that represents a field which can be taken(RED or YEL) or can be empty
+ * A class that represents a field which can be taken(RED or YEL) or can be empty.
+ * 
  * @author Lieke en Amber
  *
  */
@@ -19,18 +20,22 @@ public class Field {
 		this.z = z;
 		this.color = one;
 	}
+
 	/**
 	 * Asks for the color of a field.
+	 * 
 	 * @return the color of the field
 	 */
 	public Color getColor() {
 		return color;
 
 	}
+
 	/**
 	 * Sets the color of a field to a given color.
+	 * 
 	 * @param choice
-	 * @throws FieldTakenException 
+	 * @throws FieldTakenException
 	 */
 	public void setColor(Color choice) throws FieldTakenException {
 		if (color == Color.EMP) {
@@ -41,7 +46,7 @@ public class Field {
 	}
 
 	/**
-	 * gives the y coordinate where the player wants to place his tile during
+	 * Gives the y coordinate where the player wants to place his tile during
 	 * his move.
 	 * 
 	 * @return y coordinate of Move
@@ -52,7 +57,7 @@ public class Field {
 	}
 
 	/**
-	 * gives the x coordinate where the player wants to place his tile during
+	 * Gives the x coordinate where the player wants to place his tile during
 	 * his move.
 	 * 
 	 * @return x coordinate of Move
@@ -62,7 +67,7 @@ public class Field {
 	}
 
 	/**
-	 * gives the y coordinate where the player wants to place his tile during
+	 * Gives the z coordinate where the player wants to place his tile during
 	 * his move.
 	 * 
 	 * @return y coordinate of Move
